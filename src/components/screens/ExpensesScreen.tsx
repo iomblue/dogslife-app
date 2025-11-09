@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import type { Expense } from '../../../types';
+import type { Expense } from '../../types';
 import AddExpenseModal from '../expenses/AddExpenseModal';
 import ExpenseSummary from '../expenses/ExpenseSummary';
 import ExpenseChart from '../expenses/ExpenseChart';

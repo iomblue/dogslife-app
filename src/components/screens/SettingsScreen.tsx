@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import { themes } from '../../../styles/theme';
-import type { ThemeName, Theme } from '../../../types';
+import { themes } from '../../styles/theme';
+import type { ThemeName } from '../../types';
 
 // Import all required types for mock data
-import { DogProfile, MedicalRecord, MedicalRecordType, Walk, JournalEntry, SymptomAnalysisHistoryItem, UrgencyLevel, FeedingScheduleItem, WeightRecord, LostDogAlert, DogService, ServiceType, PlaydateMatch, PlaydateProfile, DogSize, Temperament, PlayStyle, Expense, ExpenseCategory } from '../../../types';
+import { DogProfile, MedicalRecord, MedicalRecordType, Walk, JournalEntry, SymptomAnalysisHistoryItem, UrgencyLevel, FeedingScheduleItem, WeightRecord, LostDogAlert, DogService, ServiceType, PlaydateMatch, PlaydateProfile, DogSize, Temperament, PlayStyle, Expense, ExpenseCategory } from '../../types';
 
 
 const SettingsScreen: React.FC = () => {

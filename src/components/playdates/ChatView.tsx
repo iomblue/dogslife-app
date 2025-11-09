@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { PlaydateMatch, PlaydateProfile } from '../../../types';
+import type { PlaydateMatch, ChatMessage } from '../../types';
 import MessageBubble from './MessageBubble';
 
 interface ChatViewProps {
@@ -44,7 +44,7 @@ const ChatView: React.FC<ChatViewProps> = ({ match, onBack, onSendMessage }) => 
 
             {/* Message List */}
             <div className="flex-grow overflow-y-auto p-4 space-y-4">
-                {match.messages.map(msg => (
+                {match.messages.map((msg: ChatMessage) => (
                     <MessageBubble key={msg.id} message={msg} />
                 ))}
                 <div ref={messagesEndRef} />

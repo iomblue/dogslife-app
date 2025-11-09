@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { Screen, DogProfile } from '../../../types';
+import type { Screen, DogProfile } from '../../types';
 import { useTheme } from '../../context/ThemeContext';
 
 interface HomeScreenProps {
