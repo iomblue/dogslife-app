@@ -1,0 +1,7 @@
+{
+  "name": "DogsLife - All-Around Dog Lovers App",
+  "description": "An AI-powered application for dog owners, featuring a symptom checker, fitness tracking, photo journal, local services map, and community boards.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
