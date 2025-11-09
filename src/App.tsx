@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import type { Screen } from './types';
+import type { Screen } from '../types';
 import { useTheme } from './context/ThemeContext';
 
-import Header from './components/Header';
-import BottomNav from './components/BottomNav';
-import HomeScreen from './components/screens/HomeScreen';
-import SymptomCheckerScreen from './components/screens/SymptomCheckerScreen';
-import FitnessScreen from './components/screens/FitnessScreen';
-import TrainingScreen from './components/screens/TrainingScreen';
-import DogProfileScreen from './components/screens/DogProfileScreen';
-import SettingsScreen from './components/screens/SettingsScreen';
-import CommunityScreen from './components/screens/CommunityScreen';
-import JournalScreen from './components/screens/JournalScreen';
-import MapScreen from './components/screens/MapScreen';
-import ExpensesScreen from './components/screens/ExpensesScreen';
-import NutritionScreen from './components/screens/NutritionScreen';
-import ServicesScreen from './components/screens/ServicesScreen';
-import PlaydateScreen from './components/screens/PlaydateScreen';
+import Header from '../components/Header';
+import BottomNav from '../components/BottomNav';
+import HomeScreen from '../components/screens/HomeScreen';
+import SymptomCheckerScreen from '../components/screens/SymptomCheckerScreen';
+import FitnessScreen from '../components/screens/FitnessScreen';
+import TrainingScreen from '../components/screens/TrainingScreen';
+import DogProfileScreen from '../components/screens/DogProfileScreen';
+import SettingsScreen from '../components/screens/SettingsScreen';
+import CommunityScreen from '../components/screens/CommunityScreen';
+import JournalScreen from '../components/screens/JournalScreen';
+import MapScreen from '../components/screens/MapScreen';
+import ExpensesScreen from '../components/screens/ExpensesScreen';
+import NutritionScreen from '../components/screens/NutritionScreen';
+import ServicesScreen from '../components/screens/ServicesScreen';
+import PlaydateScreen from '../components/screens/PlaydateScreen';
 
 const App: React.FC = () => {
   const [activeScreen, setActiveScreen] = useState<Screen>('Health');
