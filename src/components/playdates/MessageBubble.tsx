@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ChatMessage } from '../../types';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../../context/ThemeContext';
 
 interface MessageBubbleProps {
     message: ChatMessage;
