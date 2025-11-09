@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import { themes } from '../../styles/theme';
-import type { ThemeName } from '../../types';
+import { themes } from '../../../styles/theme';
+import type { ThemeName, Theme } from '../../../types';
 
 // Import all required types for mock data
-import { DogProfile, MedicalRecord, MedicalRecordType, Walk, JournalEntry, SymptomAnalysisHistoryItem, UrgencyLevel, FeedingScheduleItem, WeightRecord, LostDogAlert, DogService, ServiceType, PlaydateMatch, PlaydateProfile, DogSize, Temperament, PlayStyle, Expense, ExpenseCategory } from '../../types';
+import { DogProfile, MedicalRecord, MedicalRecordType, Walk, JournalEntry, SymptomAnalysisHistoryItem, UrgencyLevel, FeedingScheduleItem, WeightRecord, LostDogAlert, DogService, ServiceType, PlaydateMatch, PlaydateProfile, DogSize, Temperament, PlayStyle, Expense, ExpenseCategory } from '../../../types';
 
 
 const SettingsScreen: React.FC = () => {
@@ -110,7 +110,7 @@ const SettingsScreen: React.FC = () => {
                         <h4 className="text-lg font-medium mb-3">Theme</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             {(Object.keys(themes) as ThemeName[]).map(name => {
-                                const theme = themes[name][resolvedMode];
+                                const theme = themes[name][resolvedMode as keyof typeof themes[ThemeName]];
                                 const isActive = themeName === name;
                                 return (
                                     <button

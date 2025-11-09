@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import type { DogService, GeoLocation } from '../../types';
-import { ServiceType } from '../../types';
-import { haversineDistance } from '../../utils/geolocation';
+import type { DogService, GeoLocation } from '../../../types';
+import { ServiceType } from '../../../types';
 import SearchBar from '../services/SearchBar';
 import ServicesMapView from '../services/ServicesMapView';
 import ServiceListItem from '../services/ServiceListItem';
@@ -16,7 +15,7 @@ const MOCK_SERVICES: DogService[] = [
 ];
 
 const ServicesScreen: React.FC = () => {
-    const [services, setServices] = useState<DogService[]>(() => {
+    const [services] = useState<DogService[]>(() => {
          try {
             const savedServices = localStorage.getItem('paws-services');
             return savedServices ? JSON.parse(savedServices) : MOCK_SERVICES;
@@ -30,7 +29,7 @@ const ServicesScreen: React.FC = () => {
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (pos) => setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-            (err) => setLocationError('Could not get your location. Distances cannot be calculated.')
+            () => setLocationError('Could not get your location. Distances cannot be calculated.')
         );
     }, []);
 

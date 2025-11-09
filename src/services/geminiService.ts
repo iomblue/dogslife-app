@@ -1,9 +1,11 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { UrgencyLevel, type SymptomAnalysis, type TrainingPlan, type TrainingGoal } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// TODO: Replace with a secure way to handle API keys, e.g., a serverless function.
+const API_KEY = 'YOUR_API_KEY_HERE';
+const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-const model = 'gemini-2.5-flash';
+const model = 'gemini-1.5-flash';
 
 const symptomAnalysisSchema = {
     type: Type.OBJECT,
@@ -55,7 +57,8 @@ export const analyzeSymptoms = async (symptoms: string): Promise<SymptomAnalysis
             },
         });
 
-        const jsonStr = response.text.trim();
+        const responseText = response.text || '';
+        const jsonStr = responseText.trim();
         const jsonText = jsonStr.replace(/^```json\n?/, '').replace(/```$/, '');
         const result = JSON.parse(jsonText) as SymptomAnalysis;
         
@@ -124,7 +127,8 @@ export const generateTrainingPlan = async (goal: TrainingGoal, breed: string, ag
             },
         });
         
-        const jsonStr = response.text.trim();
+        const responseText = response.text || '';
+        const jsonStr = responseText.trim();
         const jsonText = jsonStr.replace(/^```json\n?/, '').replace(/```$/, '');
         const result = JSON.parse(jsonText) as TrainingPlan;
 

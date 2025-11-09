@@ -1,16 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { PlaydateMatch, PlaydateProfile, ChatMessage } from '../../types';
+import type { PlaydateMatch, PlaydateProfile } from '../../../types';
 import MessageBubble from './MessageBubble';
 
 interface ChatViewProps {
     match: PlaydateMatch;
-    myProfile: PlaydateProfile;
     onBack: () => void;
     onSendMessage: (matchId: string, text: string) => void;
 }
 
 
-const ChatView: React.FC<ChatViewProps> = ({ match, myProfile, onBack, onSendMessage }) => {
+const ChatView: React.FC<ChatViewProps> = ({ match, onBack, onSendMessage }) => {
     const [newMessage, setNewMessage] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
