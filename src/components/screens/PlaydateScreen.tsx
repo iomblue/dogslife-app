@@ -116,10 +116,9 @@ const PlaydateScreen: React.FC = () => {
     }, [matches, activeChat]);
 
 
-    if (activeChat && myDogProfile) {
+    if (activeChat) {
         return <ChatView
             match={activeChat}
-            myProfile={myDogProfile}
             onBack={() => setActiveChat(null)}
             onSendMessage={handleSendMessage}
         />;
