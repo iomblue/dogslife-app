@@ -13,7 +13,7 @@ const SymptomInput: React.FC<SymptomInputProps> = ({ symptoms, setSymptoms, onSu
       <textarea
         value={symptoms}
         onChange={(e) => setSymptoms(e.target.value)}
-        placeholder="e.g., \"My dog has been vomiting and has diarrhea...\""
+        placeholder='e.g., "My dog has been vomiting and has diarrhea..."'
         className="w-full p-2 border rounded-lg h-28 bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
       />
       <button
