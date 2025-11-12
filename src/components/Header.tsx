@@ -11,7 +11,7 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center space-x-3">
-            <img src="/Logo.png" alt="DogsLife Logo" className="h-8 w-8" />
+            <img src="./Logo.png" alt="DogsLife Logo" className="h-8 w-8" />
           <h1 
             className="text-2xl md:text-3xl font-bold"
             style={{ color: currentTheme.cardForeground }}
