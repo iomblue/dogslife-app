@@ -4,7 +4,7 @@ interface FilterControlsProps {
     onFilterChange: (filters: any) => void;
 }
 
-const FilterControls: React.FC<FilterControlsProps> = () => {
+const FilterControls: React.FC<FilterControlsProps> = ({ onFilterChange }) => {
     
     const selectClasses = "p-1 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500";
 
