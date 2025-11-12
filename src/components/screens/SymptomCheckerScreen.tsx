@@ -43,6 +43,7 @@ const SymptomCheckerScreen: React.FC = () => {
   });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isReminderModalOpen, setIsReminderModalOpen] = useState(false);
+  const [editingRecord, setEditingRecord] = useState<MedicalRecord | null>(null);
 
   useEffect(() => {
     localStorage.setItem('paws-symptom-history', JSON.stringify(history));
@@ -88,14 +89,25 @@ const SymptomCheckerScreen: React.FC = () => {
   };
   
   const handleSaveRecord = (record: Omit<MedicalRecord, 'id'>) => {
-    const newRecord: MedicalRecord = {
-        ...record,
-        id: new Date().toISOString() + Math.random(),
-    };
-    setMedicalRecords(prev => [newRecord, ...prev]);
+    if (editingRecord) {
+        const newRecords = medicalRecords.map(r => r.id === editingRecord.id ? { ...r, ...record } : r);
+        setMedicalRecords(newRecords);
+    } else {
+        const newRecord: MedicalRecord = {
+            ...record,
+            id: new Date().toISOString() + Math.random(),
+        };
+        setMedicalRecords(prev => [newRecord, ...prev]);
+    }
     setIsAddModalOpen(false);
     setIsReminderModalOpen(false);
+    setEditingRecord(null);
   };
+
+  const handleEditReminder = (reminder: MedicalRecord) => {
+    setEditingRecord(reminder);
+    setIsAddModalOpen(true);
+  }
 
   const upcomingReminders = useMemo(() => {
     return medicalRecords
@@ -117,17 +129,17 @@ const SymptomCheckerScreen: React.FC = () => {
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-2xl font-bold text-slate-800">Upcoming Reminders</h3>
                 </div>
-                <UpcomingReminders reminders={upcomingReminders} />
+                <UpcomingReminders reminders={upcomingReminders.slice(0, 3)} onEdit={handleEditReminder} />
                  <div className="flex justify-between items-center mt-4">
                     <button 
-                        onClick={() => setIsAddModalOpen(true)} 
+                        onClick={() => { setEditingRecord(null); setIsAddModalOpen(true); }} 
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         Medical Record
                     </button>
                     <button 
-                        onClick={() => setIsReminderModalOpen(true)} 
+                        onClick={() => { setEditingRecord(null); setIsReminderModalOpen(true); }} 
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -186,26 +198,17 @@ const SymptomCheckerScreen: React.FC = () => {
         />
       )}
 
-      {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 animate-fade-in" onClick={() => setIsAddModalOpen(false)}>
+      {(isAddModalOpen || isReminderModalOpen) && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 animate-fade-in" onClick={() => { setIsAddModalOpen(false); setIsReminderModalOpen(false); setEditingRecord(null); }}>
             <div className="bg-white rounded-lg shadow-xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
                 <AddMedicalRecordForm 
                     onSave={handleSaveRecord}
-                    onCancel={() => setIsAddModalOpen(false)}
+                    onCancel={() => { setIsAddModalOpen(false); setIsReminderModalOpen(false); setEditingRecord(null); }}
+                    record={editingRecord}
                 />
             </div>
         </div>
-      )}\n
-    {isReminderModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 animate-fade-in" onClick={() => setIsReminderModalOpen(false)}>
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
-                <AddMedicalRecordForm 
-                    onSave={handleSaveRecord}
-                    onCancel={() => setIsReminderModalOpen(false)}
-                />
-            </div>
-        </div>
-    )}
+      )}
     </div>
   );
 };

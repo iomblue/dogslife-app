@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MedicalRecord, MedicalRecordType } from '../../types';
 
 interface AddMedicalRecordFormProps {
   onSave: (record: Omit<MedicalRecord, 'id'>) => void;
   onCancel: () => void;
+  record: MedicalRecord | null;
 }
 
-const AddMedicalRecordForm: React.FC<AddMedicalRecordFormProps> = ({ onSave, onCancel }) => {
+const AddMedicalRecordForm: React.FC<AddMedicalRecordFormProps> = ({ onSave, onCancel, record }) => {
   const [type, setType] = useState<MedicalRecordType>(MedicalRecordType.VET_VISIT);
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [dueDate, setDueDate] = useState('');
+
+  useEffect(() => {
+    if (record) {
+      setType(record.type);
+      setDate(new Date(record.date).toISOString().split('T')[0]);
+      setTitle(record.title);
+      setDetails(record.details);
+      setDueDate(record.dueDate ? new Date(record.dueDate).toISOString().split('T')[0] : '');
+    }
+  }, [record]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +38,7 @@ const AddMedicalRecordForm: React.FC<AddMedicalRecordFormProps> = ({ onSave, onC
   return (
     <form onSubmit={handleSubmit}>
         <div className="p-6">
-            <h3 className="text-2xl font-bold mb-4 text-slate-800">Add Medical Record</h3>
+            <h3 className="text-2xl font-bold mb-4 text-slate-800">{record ? 'Edit' : 'Add'} Medical Record</h3>
             <div className="space-y-4">
                 <div>
                     <label htmlFor="type" className="block text-sm font-medium text-slate-700">Record Type</label>
