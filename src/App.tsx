@@ -13,7 +13,6 @@ import SettingsScreen from './components/screens/SettingsScreen';
 import CommunityScreen from './components/screens/CommunityScreen';
 import JournalScreen from './components/screens/JournalScreen';
 import MapScreen from './components/screens/MapScreen';
-import ExpensesScreen from './components/screens/ExpensesScreen';
 import NutritionScreen from './components/screens/NutritionScreen';
 import ServicesScreen from './components/screens/ServicesScreen';
 import PlaydateScreen from './components/screens/PlaydateScreen';
@@ -47,8 +46,6 @@ const App: React.FC = () => {
         return <JournalScreen />;
       case 'Map':
           return <MapScreen />;
-      case 'Expenses':
-          return <ExpensesScreen />;
       case 'Nutrition':
           return <NutritionScreen />;
       case 'Services':
