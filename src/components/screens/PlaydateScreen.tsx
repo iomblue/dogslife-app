@@ -147,11 +147,17 @@ const PlaydateScreen: React.FC = () => {
                         </div>
                         {isAvailable && <FilterControls />}
                         {isAvailable && profiles.length > 0 && myDogProfile ? (
-                            <PlaydateCard
-                                profile={profiles[0]}
-                                onLike={handleLike}
-                                onPass={() => setProfiles(prev => prev.slice(1))}
-                            />
+                            <div className="relative">
+                                {profiles.map((profile, index) => (
+                                    <PlaydateCard
+                                        key={profile.id}
+                                        profile={profile}
+                                        onLike={() => handleLike()}
+                                        onPass={() => setProfiles(prev => prev.slice(1))}
+                                        isTop={index === 0}
+                                    />
+                                )).reverse()}
+                            </div>
                         ) : (
                             <div className="text-center p-8 bg-white rounded-lg border h-96 flex flex-col justify-center">
                                 { !myDogProfile ? (

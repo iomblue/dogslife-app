@@ -1,16 +1,70 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import type { PlaydateProfile } from '../../types';
 
 interface PlaydateCardProps {
     profile: PlaydateProfile;
     onLike: () => void;
     onPass: () => void;
+    isTop: boolean;
 }
 
-const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass }) => {
+const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass, isTop }) => {
+    const [translateX, setTranslateX] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+        if (!isTop) return;
+        setIsDragging(true);
+    };
+
+    const handleDrag = (e: React.MouseEvent | React.TouchEvent) => {
+        if (!isDragging || !isTop) return;
+
+        let currentX;
+        if ('touches' in e) {
+            currentX = e.touches[0].clientX;
+        } else {
+            currentX = e.clientX;
+        }
+
+        const rect = cardRef.current?.getBoundingClientRect();
+        if (rect) {
+            const startX = rect.left + rect.width / 2;
+            const deltaX = currentX - startX;
+            setTranslateX(deltaX);
+        }
+    };
+
+    const handleDragEnd = () => {
+        if (!isDragging || !isTop) return;
+
+        if (translateX > 100) {
+            onLike();
+        } else if (translateX < -100) {
+            onPass();
+        }
+        
+        setTranslateX(0);
+        setIsDragging(false);
+    };
+
+    const rotation = translateX / 20;
+
     return (
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden relative border">
-            <img src={profile.dogImage} alt={profile.dogName} className="w-full h-80 object-cover" />
+        <div
+            ref={cardRef}
+            onMouseDown={handleDragStart}
+            onMouseMove={handleDrag}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={handleDragStart}
+            onTouchMove={handleDrag}
+            onTouchEnd={handleDragEnd}
+            className={`bg-white rounded-2xl shadow-xl overflow-hidden absolute w-full h-full transition-transform duration-200 ${isDragging ? '' : 'ease-out'}`}
+            style={{ transform: `translateX(${translateX}px) rotate(${rotation}deg)` }}
+        >
+            <img src={profile.dogImage} alt={profile.dogName} className="w-full h-full object-cover" />
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
                 <h3 className="text-3xl font-bold">{profile.dogName}, {profile.age}</h3>
                 <p className="text-lg">{profile.breed}</p>
@@ -18,14 +72,8 @@ const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass }) 
                     {profile.temperament.map(t => <span key={t} className="text-xs bg-white/30 rounded-full px-2 py-1">{t}</span>)}
                 </div>
             </div>
-            <div className="p-4 flex justify-around bg-white">
-                 <button onClick={onPass} className="p-4 rounded-full bg-slate-100 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-                 <button onClick={onLike} className="p-4 rounded-full bg-slate-100 text-slate-500 hover:bg-green-100 hover:text-green-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                </button>
-            </div>
+             <div className="absolute top-4 left-4 text-2xl font-bold text-green-400 border-4 border-green-400 p-2 rounded-lg -rotate-45 opacity-0 transition-opacity" style={{ opacity: translateX > 50 ? 1 : 0 }}>LIKE</div>
+             <div className="absolute top-4 right-4 text-2xl font-bold text-red-400 border-4 border-red-400 p-2 rounded-lg rotate-45 opacity-0 transition-opacity" style={{ opacity: translateX < -50 ? 1 : 0 }}>NOPE</div>
         </div>
     );
 };
