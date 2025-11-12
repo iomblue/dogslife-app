@@ -35,16 +35,17 @@ const PlaydateScreen: React.FC = () => {
     const [activeChat, setActiveChat] = useState<PlaydateMatch | null>(null);
 
     useEffect(() => {
-        const savedProfile: DogProfile | null = JSON.parse(localStorage.getItem('paws-dog-profile') || 'null');
-        if (savedProfile) {
+        const savedProfiles: DogProfile[] | null = JSON.parse(localStorage.getItem('paws-dog-profiles') || 'null');
+        if (savedProfiles && savedProfiles.length > 0) {
+            const firstProfile = savedProfiles[0];
             setMyDogProfile({
                 id: 'my-dog',
-                dogName: savedProfile.name,
-                dogImage: savedProfile.imageUrl,
-                breed: savedProfile.breed,
+                dogName: firstProfile.name,
+                dogImage: firstProfile.imageUrl,
+                breed: firstProfile.breed,
                 age: 4, // Placeholder age
                 size: DogSize.MEDIUM, // Placeholder
-                temperament: [Temperament.FRIENDLY], // Placeholder
+                temperament: firstProfile.temperament, 
                 playStyle: PlayStyle.GENTLE, // Placeholder
                 ownerName: 'Me',
                 ownerImage: '',

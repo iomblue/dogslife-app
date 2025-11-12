@@ -205,6 +205,7 @@ const SymptomCheckerScreen: React.FC = () => {
                     onSave={handleSaveRecord}
                     onCancel={() => { setIsAddModalOpen(false); setIsReminderModalOpen(false); setEditingRecord(null); }}
                     record={editingRecord}
+                    isReminder={isReminderModalOpen}
                 />
             </div>
         </div>
