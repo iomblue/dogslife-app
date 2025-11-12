@@ -31,6 +31,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ setActiveScreen }) => {
         <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="max-w-3xl mx-auto space-y-8">
                 <div className="text-center">
+                    <img src="/Logo.png" alt="DogsLife Logo" className="h-16 w-16 mx-auto mb-4" />
                     <h1 className="text-4xl font-bold">Welcome to DogsLife</h1>
                     <p className="text-lg text-slate-500 mt-2">Your all-in-one pet care assistant.</p>
                 </div>
@@ -39,13 +40,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ setActiveScreen }) => {
                     {quickLinks.map(link => (
                         <QuickLink key={link.screen} label={link.label} icon={link.icon} onClick={() => setActiveScreen(link.screen as Screen)} />
                     ))}
-                </div>
-
-                <div className="bg-white p-6 rounded-lg shadow-md border">
-                    <h3 className="font-bold text-lg mb-2">Today's Tip</h3>
-                    <p className="text-slate-600">
-                        Positive reinforcement, like treats and praise, is the most effective way to train your dog. Keep training sessions short and fun to maintain their focus!
-                    </p>
                 </div>
             </div>
         </div>

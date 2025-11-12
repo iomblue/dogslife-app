@@ -114,15 +114,23 @@ const SymptomCheckerScreen: React.FC = () => {
             <div>
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-2xl font-bold text-slate-800">Upcoming Reminders</h3>
-                     <button 
+                </div>
+                <UpcomingReminders reminders={upcomingReminders} />
+                 <div className="flex justify-between items-center mt-4">
+                    <button 
                         onClick={() => setIsAddModalOpen(true)} 
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        Add Record
+                        Medical Record
+                    </button>
+                    <button 
+                        className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Set Reminder
                     </button>
                 </div>
-                <UpcomingReminders reminders={upcomingReminders} />
             </div>
              <div className="bg-white p-4 rounded-lg shadow border">
                 <div className="flex justify-between items-center">
@@ -135,19 +143,6 @@ const SymptomCheckerScreen: React.FC = () => {
                         className="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 text-sm"
                     >
                         View Full History
-                    </button>
-                </div>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow border">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h4 className="font-bold text-slate-800">Book Appointment</h4>
-                        <p className="text-sm text-slate-500">Found a service? Book your next appointment.</p>
-                    </div>
-                    <button 
-                        className="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 text-sm"
-                    >
-                        Book Appointment
                     </button>
                 </div>
             </div>
