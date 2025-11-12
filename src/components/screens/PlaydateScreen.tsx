@@ -12,11 +12,14 @@ const MOCK_PROFILES: PlaydateProfile[] = [
   { id: '1', dogName: 'Buddy', dogImage: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400', breed: 'Golden Retriever', age: 3, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY, Temperament.CALM], playStyle: PlayStyle.GENTLE, ownerName: 'Alex', ownerImage: '' },
   { id: '2', dogName: 'Lucy', dogImage: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=400', breed: 'Poodle', age: 2, size: DogSize.MEDIUM, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Mia', ownerImage: '' },
   { id: '3', dogName: 'Max', dogImage: 'https://images.unsplash.com/photo-1591160690555-5debfba289f0?w=400', breed: 'Beagle', age: 5, size: DogSize.MEDIUM, temperament: [Temperament.CALM], playStyle: PlayStyle.WRESTLER, ownerName: 'Sam', ownerImage: '' },
+  { id: '4', dogName: 'Daisy', dogImage: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400', breed: 'French Bulldog', age: 1, size: DogSize.SMALL, temperament: [Temperament.ENERGETIC, Temperament.FRIENDLY], playStyle: PlayStyle.CHASER, ownerName: 'Chloe', ownerImage: '' },
+  { id: '5', dogName: 'Rocky', dogImage: 'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=400', breed: 'German Shepherd', age: 4, size: DogSize.LARGE, temperament: [Temperament.PROTECTIVE, Temperament.CALM], playStyle: PlayStyle.GENTLE, ownerName: 'Tom', ownerImage: '' },
 ];
 
 const PlaydateScreen: React.FC = () => {
     type View = 'find' | 'chats';
     const [view, setView] = useState<View>('find');
+    const [isAvailable, setIsAvailable] = useState(false);
 
     const [profiles, setProfiles] = useState<PlaydateProfile[]>(MOCK_PROFILES);
     const [matches, setMatches] = useState<PlaydateMatch[]>(() => {
@@ -137,8 +140,13 @@ const PlaydateScreen: React.FC = () => {
 
                 {view === 'find' && (
                     <>
-                        <FilterControls />
-                        {profiles.length > 0 && myDogProfile ? (
+                        <div className="flex justify-center">
+                            <button onClick={() => setIsAvailable(!isAvailable)} className={`py-2 px-4 rounded-full font-semibold capitalize transition-colors ${isAvailable ? 'bg-green-500 text-white' : 'bg-slate-300 text-slate-600'}`}>
+                                {isAvailable ? 'Available for Playdates' : 'Set to Available'}
+                            </button>
+                        </div>
+                        {isAvailable && <FilterControls />}
+                        {isAvailable && profiles.length > 0 && myDogProfile ? (
                             <PlaydateCard
                                 profile={profiles[0]}
                                 onLike={handleLike}
@@ -148,6 +156,8 @@ const PlaydateScreen: React.FC = () => {
                             <div className="text-center p-8 bg-white rounded-lg border h-96 flex flex-col justify-center">
                                 { !myDogProfile ? (
                                      <p>Please create a dog profile to start matching!</p>
+                                ) : !isAvailable ? (
+                                    <p>Set your status to "Available" to start finding playmates!</p>
                                 ) : (
                                      <p>No more profiles nearby. Check back later!</p>
                                 )}

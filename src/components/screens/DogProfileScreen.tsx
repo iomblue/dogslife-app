@@ -104,9 +104,9 @@ const DogProfileScreen: React.FC = () => {
         return (
             <div className="container mx-auto px-4 py-8 md:py-12">
                 <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border">
-                    <div className="flex justify-between items-center mb-6">
+                    <div className="text-center mb-6">
                         <h2 className="text-3xl font-bold text-slate-800">Dog Profile</h2>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 justify-center mt-4">
                             <button onClick={handleNewProfile} className="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 text-sm">
                                 Add New
                             </button>
