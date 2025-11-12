@@ -13,7 +13,7 @@ const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass, is
     const [isDragging, setIsDragging] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
 
-    const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    const handleDragStart = () => {
         if (!isTop) return;
         setIsDragging(true);
     };
