@@ -42,6 +42,7 @@ const SymptomCheckerScreen: React.FC = () => {
     }
   });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isReminderModalOpen, setIsReminderModalOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('paws-symptom-history', JSON.stringify(history));
@@ -93,6 +94,7 @@ const SymptomCheckerScreen: React.FC = () => {
     };
     setMedicalRecords(prev => [newRecord, ...prev]);
     setIsAddModalOpen(false);
+    setIsReminderModalOpen(false);
   };
 
   const upcomingReminders = useMemo(() => {
@@ -125,6 +127,7 @@ const SymptomCheckerScreen: React.FC = () => {
                         Medical Record
                     </button>
                     <button 
+                        onClick={() => setIsReminderModalOpen(true)} 
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -192,7 +195,17 @@ const SymptomCheckerScreen: React.FC = () => {
                 />
             </div>
         </div>
-      )}
+      )}\n
+    {isReminderModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 animate-fade-in" onClick={() => setIsReminderModalOpen(false)}>
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
+                <AddMedicalRecordForm 
+                    onSave={handleSaveRecord}
+                    onCancel={() => setIsReminderModalOpen(false)}
+                />
+            </div>
+        </div>
+    )}
     </div>
   );
 };

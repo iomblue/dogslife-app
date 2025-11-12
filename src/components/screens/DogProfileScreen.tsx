@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import type { DogProfile } from '../../types';
+import type { DogProfile, Temperament } from '../../types';
+import { Temperament as TemperamentEnum } from '../../types';
 
 const DogProfileScreen: React.FC = () => {
     const [profiles, setProfiles] = useState<DogProfile[]>([]);
@@ -47,7 +48,7 @@ const DogProfileScreen: React.FC = () => {
         e.preventDefault();
         if (currentProfile && currentProfile.name && currentProfile.breed && currentProfile.dob && currentProfile.sex) {
             const newProfiles = [...profiles];
-            const existingProfileIndex = newProfiles.findIndex(p => p.name === currentProfile.name); // Assuming name is a unique identifier for now
+            const existingProfileIndex = newProfiles.findIndex(p => p.name === currentProfile.name);
             if (existingProfileIndex > -1) {
                 newProfiles[existingProfileIndex] = currentProfile;
             } else {
@@ -83,6 +84,7 @@ const DogProfileScreen: React.FC = () => {
             dob: '',
             sex: 'Male',
             imageUrl: '',
+            temperament: [],
         });
         setIsEditing(true);
     };
@@ -187,6 +189,12 @@ const DogProfileScreen: React.FC = () => {
                             <select name="sex" id="sex" value={currentProfile?.sex} onChange={handleInputChange} required className={inputClasses}>
                                 <option>Male</option>
                                 <option>Female</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="temperament" className="block text-sm font-medium text-slate-700">Temperament</label>
+                            <select multiple name="temperament" id="temperament" value={currentProfile?.temperament} onChange={handleInputChange} required className={inputClasses}>
+                                {Object.values(TemperamentEnum).map(t => <option key={t} value={t}>{t}</option>)}
                             </select>
                         </div>
                     </div>

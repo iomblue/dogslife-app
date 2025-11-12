@@ -12,7 +12,7 @@ const SettingsScreen: React.FC = () => {
 
     const handleClearData = () => {
         if (window.confirm("Are you sure you want to clear all app data? This cannot be undone.")) {
-            localStorage.removeItem('paws-dog-profile');
+            localStorage.removeItem('paws-dog-profiles');
             localStorage.removeItem('paws-medical-records');
             localStorage.removeItem('paws-walks');
             localStorage.removeItem('paws-journal');
@@ -32,8 +32,8 @@ const SettingsScreen: React.FC = () => {
     const handleLoadData = () => {
         if (window.confirm("This will replace all current data with sample data. Continue?")) {
             // Dog Profile
-            const profile: DogProfile = { name: 'Buddy', breed: 'Golden Retriever', dob: '2020-05-15', sex: 'Male', imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400' };
-            localStorage.setItem('paws-dog-profile', JSON.stringify(profile));
+            const profile: DogProfile[] = [{ name: 'Buddy', breed: 'Golden Retriever', dob: '2020-05-15', sex: 'Male', imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400', temperament: [Temperament.FRIENDLY] }];
+            localStorage.setItem('paws-dog-profiles', JSON.stringify(profile));
 
             // Medical Records
             const records: MedicalRecord[] = [
@@ -77,7 +77,7 @@ const SettingsScreen: React.FC = () => {
             localStorage.setItem('paws-services', JSON.stringify([{ id: '1', name: 'Happy Paws Vet Clinic', type: ServiceType.VET, location: { lat: 37.780, lng: -122.430 }, rating: 4.8 }] as DogService[]));
             
              // Playdate Matches
-            const myDogPlaydateProfile: PlaydateProfile = { id: 'my-dog', dogName: profile.name, dogImage: profile.imageUrl, breed: profile.breed, age: 4, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY], playStyle: PlayStyle.GENTLE, ownerName: 'Me', ownerImage: '' };
+            const myDogPlaydateProfile: PlaydateProfile = { id: 'my-dog', dogName: profile[0].name, dogImage: profile[0].imageUrl, breed: profile[0].breed, age: 4, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY], playStyle: PlayStyle.GENTLE, ownerName: 'Me', ownerImage: '' };
             const theirDogPlaydateProfile: PlaydateProfile = { id: '2', dogName: 'Lucy', dogImage: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=400', breed: 'Poodle', age: 2, size: DogSize.MEDIUM, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Mia', ownerImage: '' };
             const matches: PlaydateMatch[] = [{
                 id: 'match1',

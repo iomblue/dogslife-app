@@ -186,6 +186,7 @@ const FitnessScreen: React.FC = () => {
                     <div className="grid grid-cols-3 gap-4 text-center mb-6">
                         <div>
                             <p className="text-sm font-medium text-slate-500">Duration</p>
+                            <p className="text-xs font-medium text-slate-500">(hr/min)</p>
                             <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{formatTime(elapsedTime)}</p>
                         </div>
                         <div>
