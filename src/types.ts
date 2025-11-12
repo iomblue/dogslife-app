@@ -45,6 +45,7 @@ export interface DogProfile {
   dob: string; // date string
   sex: 'Male' | 'Female';
   imageUrl: string;
+  temperament: Temperament[];
 }
 
 // Fitness / Walks
