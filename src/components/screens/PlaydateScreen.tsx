@@ -17,6 +17,9 @@ const MOCK_PROFILES: PlaydateProfile[] = [
   { id: '6', dogName: 'Molly', dogImage: 'https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=400', breed: 'Corgi', age: 2, size: DogSize.SMALL, temperament: [Temperament.FRIENDLY, Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Emily', ownerImage: '' },
   { id: '7', dogName: 'Charlie', dogImage: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400', breed: 'Labrador', age: 6, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY], playStyle: PlayStyle.GENTLE, ownerName: 'Jack', ownerImage: '' },
   { id: '8', dogName: 'Lola', dogImage: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c20?w=400', breed: 'Boxer', age: 3, size: DogSize.LARGE, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.WRESTLER, ownerName: 'Sophie', ownerImage: '' },
+  { id: '9', dogName: 'Ruby', dogImage: 'https://images.unsplash.com/photo-1598875184988-5e67b1a7ea9b?w=400', breed: 'Shiba Inu', age: 2, size: DogSize.MEDIUM, temperament: [Temperament.SHY], playStyle: PlayStyle.GENTLE, ownerName: 'Grace', ownerImage: '' },
+  { id: '10', dogName: 'Oscar', dogImage: 'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=400', breed: 'Pug', age: 4, size: DogSize.SMALL, temperament: [Temperament.CALM, Temperament.FRIENDLY], playStyle: PlayStyle.WRESTLER, ownerName: 'Henry', ownerImage: '' },
+  { id: '11', dogName: 'Zoe', dogImage: 'https://images.unsplash.com/photo-1588269838776-49275cde9bda?w=400', breed: 'Dalmatian', age: 1, size: DogSize.LARGE, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Isabella', ownerImage: '' },
 ];
 
 const PlaydateScreen: React.FC = () => {

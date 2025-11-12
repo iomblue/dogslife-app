@@ -65,6 +65,10 @@ const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass, is
             style={{ transform: `translateX(${translateX}px) rotate(${rotation}deg)` }}
         >
             <img src={profile.dogImage} alt={profile.dogName} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 flex justify-between items-center px-4">
+                <div className="text-2xl font-bold text-red-400 border-4 border-red-400 p-2 rounded-lg rotate-45 opacity-0 transition-opacity" style={{ opacity: translateX < -50 ? 1 : 0 }}>NOPE</div>
+                <div className="text-2xl font-bold text-green-400 border-4 border-green-400 p-2 rounded-lg -rotate-45 opacity-0 transition-opacity" style={{ opacity: translateX > 50 ? 1 : 0 }}>LIKE</div>
+            </div>
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
                 <h3 className="text-3xl font-bold">{profile.dogName}, {profile.age}</h3>
                 <p className="text-lg">{profile.breed}</p>
@@ -72,8 +76,6 @@ const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass, is
                     {profile.temperament.map(t => <span key={t} className="text-xs bg-white/30 rounded-full px-2 py-1">{t}</span>)}
                 </div>
             </div>
-             <div className="absolute top-4 left-4 text-2xl font-bold text-green-400 border-4 border-green-400 p-2 rounded-lg -rotate-45 opacity-0 transition-opacity" style={{ opacity: translateX > 50 ? 1 : 0 }}>LIKE</div>
-             <div className="absolute top-4 right-4 text-2xl font-bold text-red-400 border-4 border-red-400 p-2 rounded-lg rotate-45 opacity-0 transition-opacity" style={{ opacity: translateX < -50 ? 1 : 0 }}>NOPE</div>
         </div>
     );
 };
