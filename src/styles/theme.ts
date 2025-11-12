@@ -10,7 +10,7 @@ type ThemeCollection = {
 export const themes: ThemeCollection = {
   trustCare: {
     light: {
-      background: '#EFF6FF', // blue-50
+      background: '#E0F2FE', //-100
       foreground: '#0F172A', // slate-900
       card: '#FFFFFF', // white
       cardForeground: '#0F172A', // slate-900
@@ -42,7 +42,7 @@ export const themes: ThemeCollection = {
   },
   playfulSocial: {
     light: {
-      background: '#F7FDFB', // A very light green
+      background: '#F4FDFA', // A very light green
       foreground: '#1A202C', // gray-800
       card: '#FFFFFF', // white
       cardForeground: '#1A202C', // gray-800

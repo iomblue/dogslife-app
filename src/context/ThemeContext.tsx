@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import type { ThemeName, ColorMode, Theme } from '../types';
+import type { ThemeName, ColorMode, Theme, UnitSystem } from '../types';
 import { themes } from '../styles/theme';
 
 interface ThemeContextType {
@@ -9,6 +9,8 @@ interface ThemeContextType {
   setColorMode: (mode: ColorMode) => void;
   resolvedMode: 'light' | 'dark';
   currentTheme: Theme;
+  unitSystem: UnitSystem;
+  setUnitSystem: (system: UnitSystem) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -32,6 +34,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
+    try {
+      const saved = localStorage.getItem('paws-unit-system');
+      return (saved as UnitSystem) || 'metric';
+    } catch {
+      return 'metric';
+    }
+  });
+
   const [systemMode, setSystemMode] = useState<'light' | 'dark'>(() => 
     window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   );
@@ -43,6 +54,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     localStorage.setItem('paws-color-mode', colorMode);
   }, [colorMode]);
+
+  useEffect(() => {
+    localStorage.setItem('paws-unit-system', unitSystem);
+  }, [unitSystem]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -66,6 +81,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setColorMode,
     resolvedMode,
     currentTheme,
+    unitSystem,
+    setUnitSystem,
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { themes } from '../../styles/theme';
-import type { ThemeName } from '../../types';
+import type { ThemeName, UnitSystem } from '../../types';
 
 // Import all required types for mock data
 import { DogProfile, MedicalRecord, MedicalRecordType, Walk, JournalEntry, SymptomAnalysisHistoryItem, UrgencyLevel, FeedingScheduleItem, WeightRecord, LostDogAlert, DogService, ServiceType, PlaydateMatch, PlaydateProfile, DogSize, Temperament, PlayStyle, Expense, ExpenseCategory } from '../../types';
 
 
 const SettingsScreen: React.FC = () => {
-    const { themeName, setThemeName, colorMode, setColorMode, resolvedMode, currentTheme } = useTheme();
+    const { themeName, setThemeName, colorMode, setColorMode, resolvedMode, currentTheme, unitSystem, setUnitSystem } = useTheme();
 
     const handleClearData = () => {
         if (window.confirm("Are you sure you want to clear all app data? This cannot be undone.")) {
@@ -134,7 +134,7 @@ const SettingsScreen: React.FC = () => {
                     </div>
                     
                     {/* Color Mode Selection */}
-                    <div>
+                    <div className="mb-6">
                         <h4 className="text-lg font-medium mb-3">Color Mode</h4>
                         <div className="flex gap-2">
                             {(['light', 'dark', 'system'] as const).map(mode => (
@@ -148,6 +148,26 @@ const SettingsScreen: React.FC = () => {
                                     }}
                                 >
                                     {mode}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Unit System Selection */}
+                    <div>
+                        <h4 className="text-lg font-medium mb-3">Unit System</h4>
+                        <div className="flex gap-2">
+                            {(['metric', 'imperial'] as const).map(system => (
+                                <button 
+                                    key={system}
+                                    onClick={() => setUnitSystem(system as UnitSystem)}
+                                    className={`py-2 px-4 rounded-lg font-semibold capitalize transition-colors`}
+                                    style={{
+                                        backgroundColor: unitSystem === system ? currentTheme.primary : currentTheme.secondary,
+                                        color: unitSystem === system ? currentTheme.primaryForeground : currentTheme.secondaryForeground,
+                                    }}
+                                >
+                                    {system}
                                 </button>
                             ))}
                         </div>

@@ -138,6 +138,19 @@ const SymptomCheckerScreen: React.FC = () => {
                     </button>
                 </div>
             </div>
+            <div className="bg-white p-4 rounded-lg shadow border">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h4 className="font-bold text-slate-800">Book Appointment</h4>
+                        <p className="text-sm text-slate-500">Found a service? Book your next appointment.</p>
+                    </div>
+                    <button 
+                        className="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 text-sm"
+                    >
+                        Book Appointment
+                    </button>
+                </div>
+            </div>
         </div>
 
         {/* Symptom Checker Section */}

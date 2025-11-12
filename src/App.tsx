@@ -19,7 +19,7 @@ import ServicesScreen from './components/screens/ServicesScreen';
 import PlaydateScreen from './components/screens/PlaydateScreen';
 
 const App: React.FC = () => {
-  const [activeScreen, setActiveScreen] = useState<Screen>('Health');
+  const [activeScreen, setActiveScreen] = useState<Screen>('Home');
   const { currentTheme } = useTheme();
 
   useEffect(() => {

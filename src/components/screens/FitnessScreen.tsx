@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { Walk } from '../../types';
+import { useTheme } from '../../context/ThemeContext';
 import { haversineDistance } from '../../utils/geolocation';
 import RouteMap from '../fitness/RouteMap';
 import WalkHistoryItem from '../fitness/WalkHistoryItem';
@@ -8,8 +9,7 @@ import EditWalkModal from '../fitness/EditWalkModal';
 const formatTime = (seconds: number): string => {
     const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
     const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-    const s = Math.floor(seconds % 60).toString().padStart(2, '0');
-    return `${h}:${m}:${s}`;
+    return `${h}:${m}`;
 };
 
 const formatTotalTime = (seconds: number): string => {
@@ -23,6 +23,7 @@ const formatTotalTime = (seconds: number): string => {
 };
 
 const FitnessScreen: React.FC = () => {
+    const { unitSystem } = useTheme();
     const [walks, setWalks] = useState<Walk[]>(() => {
         try {
             const savedWalks = localStorage.getItem('paws-walks');
@@ -165,6 +166,13 @@ const FitnessScreen: React.FC = () => {
         };
     }, []);
 
+    const displayDistance = unitSystem === 'metric' ? distance : distance * 0.621371;
+    const displayLifetimeDistance = unitSystem === 'metric' ? lifetimeStats.totalDistance : lifetimeStats.totalDistance * 0.621371;
+    const displayAvgSpeed = unitSystem === 'metric' ? liveAvgSpeed : liveAvgSpeed * 0.621371;
+    const displayOverallAvgSpeed = unitSystem === 'metric' ? lifetimeStats.overallAvgSpeed : lifetimeStats.overallAvgSpeed * 0.621371;
+    const distanceUnit = unitSystem === 'metric' ? 'km' : 'mi';
+    const speedUnit = unitSystem === 'metric' ? 'km/h' : 'mph';
+
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="max-w-3xl mx-auto">
@@ -181,12 +189,12 @@ const FitnessScreen: React.FC = () => {
                             <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{formatTime(elapsedTime)}</p>
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-slate-500">Distance (km)</p>
-                            <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{distance.toFixed(2)}</p>
+                            <p className="text-sm font-medium text-slate-500">Distance ({distanceUnit})</p>
+                            <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{displayDistance.toFixed(2)}</p>
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-slate-500">Avg Speed (km/h)</p>
-                            <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{liveAvgSpeed.toFixed(1)}</p>
+                            <p className="text-sm font-medium text-slate-500">Avg Speed ({speedUnit})</p>
+                            <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{displayAvgSpeed.toFixed(1)}</p>
                         </div>
                     </div>
                      {route.length > 0 && (
@@ -215,7 +223,7 @@ const FitnessScreen: React.FC = () => {
                             </div>
                             <div>
                                 <p className="text-sm font-medium text-blue-600">Total Distance</p>
-                                <p className="text-2xl font-bold">{lifetimeStats.totalDistance.toFixed(2)} km</p>
+                                <p className="text-2xl font-bold">{displayLifetimeDistance.toFixed(2)} {distanceUnit}</p>
                             </div>
                             <div>
                                 <p className="text-sm font-medium text-blue-600">Total Duration</p>
@@ -223,7 +231,7 @@ const FitnessScreen: React.FC = () => {
                             </div>
                              <div>
                                 <p className="text-sm font-medium text-blue-600">Avg Speed</p>
-                                <p className="text-2xl font-bold">{lifetimeStats.overallAvgSpeed.toFixed(1)} km/h</p>
+                                <p className="text-2xl font-bold">{displayOverallAvgSpeed.toFixed(1)} {speedUnit}</p>
                             </div>
                         </div>
                     )}
@@ -252,11 +260,11 @@ const FitnessScreen: React.FC = () => {
             {selectedWalk && (
                  <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 animate-fade-in" onClick={() => setSelectedWalk(null)}>
                     <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-4" onClick={e => e.stopPropagation()}>
-                        <h3 className="text-xl font-bold mb-1">Walk on {selectedWalk.date}</h3>
+                        <h3 className="text-xl font-bold mb-1">Walk - {selectedWalk.date}</h3>
                         <div className="flex gap-4 text-sm text-slate-500 mb-3">
                            <span>Duration: <strong>{formatTime(selectedWalk.duration)}</strong></span>
-                           <span>Distance: <strong>{selectedWalk.distance} km</strong></span>
-                           {selectedWalk.avgSpeed && <span>Avg Speed: <strong>{selectedWalk.avgSpeed.toFixed(1)} km/h</strong></span>}
+                           <span>Distance: <strong>{selectedWalk.distance} {distanceUnit}</strong></span>
+                           {selectedWalk.avgSpeed && <span>Avg Speed: <strong>{(unitSystem === 'metric' ? selectedWalk.avgSpeed : selectedWalk.avgSpeed * 0.621371).toFixed(1)} {speedUnit}</strong></span>}
                         </div>
                         <div className="rounded-lg overflow-hidden border">
                             <RouteMap route={selectedWalk.route} />
