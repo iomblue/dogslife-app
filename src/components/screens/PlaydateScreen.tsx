@@ -137,7 +137,7 @@ const PlaydateScreen: React.FC = () => {
 
                 {view === 'find' && (
                     <>
-                        <FilterControls onFilterChange={() => {}} />
+                        <FilterControls />
                         {profiles.length > 0 && myDogProfile ? (
                             <PlaydateCard
                                 profile={profiles[0]}
