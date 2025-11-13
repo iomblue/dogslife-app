@@ -12,7 +12,6 @@ import DogProfileScreen from './components/screens/DogProfileScreen';
 import SettingsScreen from './components/screens/SettingsScreen';
 import CommunityScreen from './components/screens/CommunityScreen';
 import JournalScreen from './components/screens/JournalScreen';
-import MapScreen from './components/screens/MapScreen';
 import NutritionScreen from './components/screens/NutritionScreen';
 import ServicesScreen from './components/screens/ServicesScreen';
 import PlaydateScreen from './components/screens/PlaydateScreen';

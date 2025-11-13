@@ -31,7 +31,19 @@ const DogProfileScreen: React.FC = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setCurrentProfile(prev => prev ? ({ ...prev, [name]: value }) : null);
+        if (name === 'temperament') {
+            const options = (e.target as HTMLSelectElement).options;
+            const selectedTemperaments: TemperamentEnum[] = [];
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].selected) {
+                    selectedTemperaments.push(options[i].value as TemperamentEnum);
+                }
+            }
+            if (selectedTemperaments.length > 2) return; // Limit to 2 temperaments
+            setCurrentProfile(prev => prev ? ({ ...prev, [name]: selectedTemperaments }) : null);
+        } else {
+            setCurrentProfile(prev => prev ? ({ ...prev, [name]: value }) : null);
+        }
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,7 +204,7 @@ const DogProfileScreen: React.FC = () => {
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="temperament" className="block text-sm font-medium text-slate-700">Temperament</label>
+                            <label htmlFor="temperament" className="block text-sm font-medium text-slate-700">Temperament (select up to 2)</label>
                             <select multiple name="temperament" id="temperament" value={currentProfile?.temperament} onChange={handleInputChange} required className={inputClasses}>
                                 {Object.values(TemperamentEnum).map(t => <option key={t} value={t}>{t}</option>)}
                             </select>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import type { LostDogAlert, DogProfile, PlaydateMatch } from '../../types';
+import { DogSize, PlayStyle } from '../../types';
 import LostDogAlertsMapView from '../lostdog/AlertsMapView';
 import LostDogAlertListItem from '../lostdog/LostDogAlertListItem';
 import CreateLostDogAlertModal from '../lostdog/CreateLostDogAlertModal';
@@ -57,8 +58,8 @@ const LostDogScreen: React.FC = () => {
             if (alert) {
                 const match: PlaydateMatch = {
                     id: `lost-dog-${alert.id}`,
-                    myDogProfile: { id: 'finder', dogName: 'You', dogImage: '', breed: '', age: 0, size: 'Medium', temperament: [], playStyle: 'Gentle', ownerName: 'You', ownerImage: '' },
-                    theirDogProfile: { id: alert.id, dogName: alert.dogName, dogImage: alert.dogImage, breed: '', age: 0, size: 'Medium', temperament: [], playStyle: 'Gentle', ownerName: 'Owner', ownerImage: '' },
+                    myDogProfile: { id: 'finder', dogName: 'You', dogImage: '', breed: '', age: 0, size: DogSize.MEDIUM, temperament: [], playStyle: PlayStyle.GENTLE, ownerName: 'You', ownerImage: '' },
+                    theirDogProfile: { id: alert.id, dogName: alert.dogName, dogImage: alert.dogImage, breed: '', age: 0, size: DogSize.MEDIUM, temperament: [], playStyle: PlayStyle.GENTLE, ownerName: 'Owner', ownerImage: '' },
                     messages: [],
                     lastMessageTimestamp: Date.now(),
                 };
