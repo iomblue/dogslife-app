@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import type { LostDogAlert, DogProfile } from '../../types';
+import React, { useState, useEffect, useMemo } from 'react';
+import type { LostDogAlert, DogProfile, PlaydateMatch } from '../../types';
 import LostDogAlertsMapView from '../lostdog/AlertsMapView';
 import LostDogAlertListItem from '../lostdog/LostDogAlertListItem';
 import CreateLostDogAlertModal from '../lostdog/CreateLostDogAlertModal';
+import ChatView from '../playdates/ChatView';
 
 const MOCK_ALERTS: LostDogAlert[] = [
     { 
@@ -27,6 +28,7 @@ const LostDogScreen: React.FC = () => {
 
     const [profile, setProfile] = useState<DogProfile | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [activeChat, setActiveChat] = useState<PlaydateMatch | null>(null);
 
     useEffect(() => {
         localStorage.setItem('paws-lost-dog-alerts', JSON.stringify(alerts));
@@ -51,14 +53,34 @@ const LostDogScreen: React.FC = () => {
     const handleResolveAlert = (alertId: string) => {
         if (window.confirm("Are you sure this dog has been found?")) {
             setAlerts(prev => prev.map(a => a.id === alertId ? { ...a, status: 'found' } : a));
+            const alert = alerts.find(a => a.id === alertId);
+            if (alert) {
+                const match: PlaydateMatch = {
+                    id: `lost-dog-${alert.id}`,
+                    myDogProfile: { id: 'finder', dogName: 'You', dogImage: '', breed: '', age: 0, size: 'Medium', temperament: [], playStyle: 'Gentle', ownerName: 'You', ownerImage: '' },
+                    theirDogProfile: { id: alert.id, dogName: alert.dogName, dogImage: alert.dogImage, breed: '', age: 0, size: 'Medium', temperament: [], playStyle: 'Gentle', ownerName: 'Owner', ownerImage: '' },
+                    messages: [],
+                    lastMessageTimestamp: Date.now(),
+                };
+                setActiveChat(match);
+            }
         }
     };
+
+    const activeAlerts = useMemo(() => alerts.filter(a => a.status === 'active'), [alerts]);
+
+    if (activeChat) {
+        return <ChatView match={activeChat} onBack={() => setActiveChat(null)} onSendMessage={() => {}} />;
+    }
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="max-w-4xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-3xl font-bold text-slate-800">Lost Dog Alerts</h2>
+                    <div className="flex items-center gap-4">
+                        <h2 className="text-3xl font-bold text-slate-800">Lost Dog Alerts</h2>
+                        {activeAlerts.length > 0 && <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">{activeAlerts.length}</span>}
+                    </div>
                     {profile?.name ? (
                         <button onClick={() => setIsModalOpen(true)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 flex items-center gap-2">
                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -70,13 +92,13 @@ const LostDogScreen: React.FC = () => {
                 </div>
                 
                 <div className="mb-6">
-                    <LostDogAlertsMapView alerts={alerts.filter(a => a.status === 'active')} />
+                    <LostDogAlertsMapView alerts={activeAlerts} />
                 </div>
 
                 <div className="space-y-4">
                     {alerts.length > 0 ? (
                         alerts
-                            .sort((a, b) => (a.status === 'found' ? 1 : -1) - (b.status === 'found' ? 1 : -1) || new Date(b.date).getTime() - new Date(a.date).getTime())
+                            .sort((a, b) => (a.status === 'found' ? 1 : -1) || new Date(b.date).getTime() - new Date(a.date).getTime())
                             .map(alert => (
                            <LostDogAlertListItem key={alert.id} alert={alert} onMarkAsFound={handleResolveAlert} />
                         ))

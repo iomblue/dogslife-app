@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { LostDogAlert } from '../../types';
+import AlertsMapView from './AlertsMapView';
 
 interface LostDogAlertListItemProps {
     alert: LostDogAlert;
@@ -41,6 +42,7 @@ const timeSince = (dateString: string): string => {
 
 const LostDogAlertListItem: React.FC<LostDogAlertListItemProps> = ({ alert, onMarkAsFound }) => {
     const isFound = alert.status === 'found';
+    const [showMap, setShowMap] = useState(false);
     
     return (
         <div className={`bg-white p-4 rounded-lg shadow border flex flex-col sm:flex-row sm:items-center gap-4 ${isFound ? 'opacity-60 bg-slate-50' : ''}`}>
@@ -53,6 +55,10 @@ const LostDogAlertListItem: React.FC<LostDogAlertListItemProps> = ({ alert, onMa
                 <p className="text-xs text-slate-400 mt-1">
                     Last seen near Lat: {alert.lastSeenLocation.lat.toFixed(3)}, Lng: {alert.lastSeenLocation.lng.toFixed(3)}
                 </p>
+                 <button onClick={() => setShowMap(!showMap)} className="text-xs text-blue-500 mt-1">
+                    {showMap ? 'Hide Map' : 'Show Map'}
+                </button>
+                {showMap && <div className="mt-2"><AlertsMapView alerts={[alert]} /></div>}
             </div>
             {isFound ? (
                  <div className="bg-green-100 text-green-700 font-bold py-2 px-4 rounded-lg text-sm text-center">

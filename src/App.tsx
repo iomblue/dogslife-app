@@ -16,6 +16,7 @@ import MapScreen from './components/screens/MapScreen';
 import NutritionScreen from './components/screens/NutritionScreen';
 import ServicesScreen from './components/screens/ServicesScreen';
 import PlaydateScreen from './components/screens/PlaydateScreen';
+import LostDogScreen from './components/screens/LostDogScreen';
 
 const App: React.FC = () => {
   const [activeScreen, setActiveScreen] = useState<Screen>('Home');
@@ -45,7 +46,7 @@ const App: React.FC = () => {
       case 'Journal':
         return <JournalScreen />;
       case 'Map':
-          return <MapScreen />;
+          return <LostDogScreen />;
       case 'Nutrition':
           return <NutritionScreen />;
       case 'Services':
