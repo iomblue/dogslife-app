@@ -1,5 +1,5 @@
 // General App Navigation
-export type Screen = 'Home' | 'Health' | 'Fitness' | 'Training' | 'Profile' | 'Settings' | 'Community' | 'Journal' | 'Map' | 'Services' | 'Playdates' | 'Expenses' | 'Nutrition';
+export type Screen = 'Home' | 'Health' | 'Fitness' | 'Training' | 'Profile' | 'Settings' | 'Community' | 'Journal' | 'Map' | 'Services' | 'Playdates' | 'Expenses' | 'Nutrition' | 'My Profile';
 export type UnitSystem = 'metric' | 'imperial';
 
 // Health / Symptom Checker
