@@ -78,9 +78,9 @@ const LostDogScreen: React.FC = () => {
         <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="max-w-4xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-baseline gap-2">
                         <h2 className="text-3xl font-bold text-slate-800">Lost Dog Alerts</h2>
-                        {activeAlerts.length > 0 && <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">{activeAlerts.length}</span>}
+                        {activeAlerts.length > 0 && <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">{activeAlerts.length}</span>}
                     </div>
                     {profile?.name ? (
                         <button onClick={() => setIsModalOpen(true)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 flex items-center gap-2">

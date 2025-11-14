@@ -7,7 +7,6 @@ import BottomNav from './components/BottomNav';
 import HomeScreen from './components/screens/HomeScreen';
 import SymptomCheckerScreen from './components/screens/SymptomCheckerScreen';
 import FitnessScreen from './components/screens/FitnessScreen';
-import TrainingScreen from './components/screens/TrainingScreen';
 import DogProfileScreen from './components/screens/DogProfileScreen';
 import SettingsScreen from './components/screens/SettingsScreen';
 import CommunityScreen from './components/screens/CommunityScreen';
@@ -34,8 +33,6 @@ const App: React.FC = () => {
         return <SymptomCheckerScreen />;
       case 'Fitness':
         return <FitnessScreen />;
-      case 'Training':
-        return <TrainingScreen />;
       case 'Profile':
         return <DogProfileScreen />;
       case 'Settings':

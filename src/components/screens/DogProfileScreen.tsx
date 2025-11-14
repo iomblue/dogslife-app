@@ -153,6 +153,9 @@ const DogProfileScreen: React.FC = () => {
                                     <p className="text-lg text-slate-700">{currentProfile.sex}</p>
                                 </div>
                              </div>
+                             <div className="mt-4 flex justify-center sm:justify-start gap-2">
+                                {currentProfile.temperament.map(t => <span key={t} className="text-xs bg-slate-200 rounded-full px-2 py-1">{t}</span>)}
+                             </div>
                         </div>
                     </div>
                 </div>
