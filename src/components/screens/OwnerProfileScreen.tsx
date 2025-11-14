@@ -105,11 +105,11 @@ const OwnerProfileScreen: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium text-slate-700">Name</label>
-                            <input type="text" name="name" id="name" value={profile?.name} onChange={handleInputChange} required className={inputClasses} />
+                            <input type="text" name="name" id="name" value={profile?.name || ''} onChange={handleInputChange} required className={inputClasses} />
                         </div>
                         <div>
                             <label htmlFor="town" className="block text-sm font-medium text-slate-700">Town</label>
-                            <input type="text" name="town" id="town" value={profile?.town} onChange={handleInputChange} required className={inputClasses} />
+                            <input type="text" name="town" id="town" value={profile?.town || ''} onChange={handleInputChange} required className={inputClasses} />
                         </div>
                     </div>
                      <div className="flex justify-end gap-4 pt-4 border-t">
