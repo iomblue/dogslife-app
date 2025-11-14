@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { DogProfile } from '../../types';
+import type { DogProfile, OwnerProfile } from '../../types';
 import { Temperament as TemperamentEnum } from '../../types';
 
 const DogProfileScreen: React.FC = () => {
@@ -90,6 +90,7 @@ const DogProfileScreen: React.FC = () => {
     };
 
     const handleNewProfile = () => {
+        const owner: OwnerProfile = { name: 'Me', town: 'San Francisco', photoUrl: '' };
         setCurrentProfile({
             name: '',
             breed: '',
@@ -97,6 +98,7 @@ const DogProfileScreen: React.FC = () => {
             sex: 'Male',
             imageUrl: '',
             temperament: [],
+            owner: owner,
         });
         setIsEditing(true);
     };

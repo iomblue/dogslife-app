@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { themes } from '../../styles/theme';
-import type { ThemeName, UnitSystem } from '../../types';
+import type { ThemeName, UnitSystem, OwnerProfile } from '../../types';
 
 // Import all required types for mock data
 import { DogProfile, MedicalRecord, MedicalRecordType, Walk, JournalEntry, SymptomAnalysisHistoryItem, UrgencyLevel, FeedingScheduleItem, WeightRecord, LostDogAlert, DogService, ServiceType, PlaydateMatch, PlaydateProfile, DogSize, Temperament, PlayStyle, Expense, ExpenseCategory } from '../../types';
@@ -32,7 +32,8 @@ const SettingsScreen: React.FC = () => {
     const handleLoadData = () => {
         if (window.confirm("This will replace all current data with sample data. Continue?")) {
             // Dog Profile
-            const profile: DogProfile[] = [{ name: 'Buddy', breed: 'Golden Retriever', dob: '2020-05-15', sex: 'Male', imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400', temperament: [Temperament.FRIENDLY] }];
+            const owner: OwnerProfile = { name: 'Me', town: 'San Francisco', photoUrl: '' };
+            const profile: DogProfile[] = [{ name: 'Buddy', breed: 'Golden Retriever', dob: '2020-05-15', sex: 'Male', imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400', temperament: [Temperament.FRIENDLY], owner: owner }];
             localStorage.setItem('paws-dog-profiles', JSON.stringify(profile));
 
             // Medical Records
