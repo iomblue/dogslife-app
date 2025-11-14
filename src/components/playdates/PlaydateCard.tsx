@@ -6,7 +6,7 @@ interface PlaydateCardProps {
     onLike: () => void;
     onPass: () => void;
     onShowOwner: () => void;
-    isTop: boolean;
+    isTop?: boolean;
 }
 
 const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass, onShowOwner, isTop }) => {
