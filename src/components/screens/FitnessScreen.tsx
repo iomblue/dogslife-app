@@ -190,7 +190,8 @@ const FitnessScreen: React.FC = () => {
                             <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{formatTime(elapsedTime)}</p>
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-slate-500">Distance ({distanceUnit})</p>
+                            <p className="text-sm font-medium text-slate-500">Distance</p>
+                            <p className="text-xs font-medium text-slate-500">({distanceUnit})</p>
                             <p className="text-3xl md:text-4xl font-bold text-blue-600 tabular-nums">{displayDistance.toFixed(2)}</p>
                         </div>
                         <div>
