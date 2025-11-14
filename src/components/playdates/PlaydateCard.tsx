@@ -13,19 +13,24 @@ const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass, on
     const [isDismissed, setIsDismissed] = useState(false);
 
     useEffect(() => {
-        if (!isTop) {
+        // When a card is shown as the top card, reset its dismissed state.
+        if (isTop) {
             setIsDismissed(false);
         }
     }, [isTop]);
 
     const handlePass = () => {
         setIsDismissed(true);
-        onPass();
+        setTimeout(() => {
+            onPass();
+        }, 300); // Wait for animation to complete
     };
 
     const handleLike = () => {
         setIsDismissed(true);
-        onLike();
+        setTimeout(() => {
+            onLike();
+        }, 300); // Wait for animation to complete
     };
 
     return (
