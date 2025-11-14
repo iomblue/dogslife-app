@@ -33,6 +33,7 @@ const PlaydateScreen: React.FC = () => {
     const [isAvailable, setIsAvailable] = useState(false);
 
     const [profiles, setProfiles] = useState<PlaydateProfile[]>(MOCK_PROFILES);
+    const [dismissed, setDismissed] = useState<string[]>([]);
     const [matches, setMatches] = useState<PlaydateMatch[]>(() => {
         try { return JSON.parse(localStorage.getItem('paws-playdate-matches') || '[]'); } catch { return []; }
     });
@@ -43,6 +44,8 @@ const PlaydateScreen: React.FC = () => {
     const [lastMatch, setLastMatch] = useState<PlaydateProfile | null>(null);
     const [activeChat, setActiveChat] = useState<PlaydateMatch | null>(null);
     const [viewingOwner, setViewingOwner] = useState<OwnerProfile | null>(null);
+
+    const visibleProfiles = profiles.filter(p => !dismissed.includes(p.id));
 
     useEffect(() => {
         const savedProfiles: DogProfile[] | null = JSON.parse(localStorage.getItem('paws-dog-profiles') || 'null');
@@ -67,27 +70,30 @@ const PlaydateScreen: React.FC = () => {
         localStorage.setItem('paws-playdate-matches', JSON.stringify(matches));
     }, [matches]);
 
-    const handleLike = () => {
-        if (profiles.length === 0 || !myDogProfile) return;
+    const handleSwipe = (profileId: string, action: 'like' | 'pass') => {
+        setDismissed(prev => [...prev, profileId]);
 
-        const likedProfile = profiles[0];
-        setProfiles(prev => prev.slice(1));
+        if (action === 'like') {
+            if (!myDogProfile) return;
+            const likedProfile = profiles.find(p => p.id === profileId);
+            if (!likedProfile) return;
 
-        // Simulate a match
-        if (Math.random() > 0.3) {
-            setLastMatch(likedProfile);
-            setIsMatchModalOpen(true);
-            const newMatch: PlaydateMatch = {
-                id: `match_${myDogProfile.id}_${likedProfile.id}`,
-                myDogProfile,
-                theirDogProfile: likedProfile,
-                messages: [],
-                lastMessageTimestamp: Date.now(),
-            };
-            setMatches(prev => {
-                if (prev.find(m => m.id === newMatch.id)) return prev;
-                return [newMatch, ...prev];
-            });
+            // Simulate a match
+            if (Math.random() > 0.3) {
+                setLastMatch(likedProfile);
+                setIsMatchModalOpen(true);
+                const newMatch: PlaydateMatch = {
+                    id: `match_${myDogProfile.id}_${likedProfile.id}`,
+                    myDogProfile,
+                    theirDogProfile: likedProfile,
+                    messages: [],
+                    lastMessageTimestamp: Date.now(),
+                };
+                setMatches(prev => {
+                    if (prev.find(m => m.id === newMatch.id)) return prev;
+                    return [newMatch, ...prev];
+                });
+            }
         }
     };
 
@@ -169,18 +175,21 @@ const PlaydateScreen: React.FC = () => {
                             </button>
                         </div>
                         {isAvailable && <FilterControls />}
-                        {isAvailable && profiles.length > 0 && myDogProfile ? (
+                        {isAvailable && visibleProfiles.length > 0 && myDogProfile ? (
                             <div className="relative h-96">
-                                {profiles.map((profile, index) => (
-                                    <PlaydateCard
-                                        key={profile.id}
-                                        profile={profile}
-                                        onLike={handleLike}
-                                        onPass={() => setProfiles(prev => prev.slice(1))}
-                                        onShowOwner={() => handleShowOwner(profile)}
-                                        isTop={index === 0}
-                                    />
-                                ))}
+                                {visibleProfiles.reverse().map((profile, index) => {
+                                    const isTop = index === visibleProfiles.length - 1;
+                                    return (
+                                        <PlaydateCard
+                                            key={profile.id}
+                                            profile={profile}
+                                            isTop={isTop}
+                                            onLike={() => handleSwipe(profile.id, 'like')}
+                                            onPass={() => handleSwipe(profile.id, 'pass')}
+                                            onShowOwner={() => handleShowOwner(profile)}
+                                        />
+                                    );
+                                })}
                             </div>
                         ) : (
                             <div className="text-center p-8 bg-white rounded-lg border h-96 flex flex-col justify-center">
