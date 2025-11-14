@@ -11,7 +11,7 @@ interface PlaydateCardProps {
 
 const PlaydateCard: React.FC<PlaydateCardProps> = ({ profile, onLike, onPass, onShowOwner, isTop }) => {
     return (
-        <div className={`bg-white rounded-2xl shadow-xl overflow-hidden relative border h-full flex flex-col transition-all duration-300 ${isTop ? '' : 'opacity-0 scale-95'}`}>
+        <div className={`bg-white rounded-2xl shadow-xl overflow-hidden absolute w-full border h-full flex flex-col transition-all duration-300 ${isTop ? '' : 'opacity-0 scale-95'}`}>
             <div className="relative w-full h-full">
                 <img src={profile.dogImage} alt={profile.dogName} className="w-full h-full object-cover" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
