@@ -38,6 +38,13 @@ export interface MedicalRecord {
     dueDate?: string; // ISO string format for reminders
 }
 
+// User Profile
+export interface OwnerProfile {
+    name: string;
+    town: string;
+    photoUrl: string;
+}
+
 // Dog Profile
 export interface DogProfile {
   name: string;
@@ -46,6 +53,7 @@ export interface DogProfile {
   sex: 'Male' | 'Female';
   imageUrl: string;
   temperament: Temperament[];
+  owner: OwnerProfile;
 }
 
 // Fitness / Walks

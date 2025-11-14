@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { PlaydateProfile, PlaydateMatch, ChatMessage, DogProfile } from '../../types';
+import type { PlaydateProfile, PlaydateMatch, ChatMessage, DogProfile, OwnerProfile } from '../../types';
 import { DogSize, Temperament, PlayStyle } from '../../types';
 
 import FilterControls from '../playdates/FilterControls';
@@ -7,19 +7,20 @@ import PlaydateCard from '../playdates/PlaydateCard';
 import MatchModal from '../playdates/MatchModal';
 import MatchList from '../playdates/MatchList';
 import ChatView from '../playdates/ChatView';
+import OwnerProfileModal from '../playdates/OwnerProfileModal';
 
 const MOCK_PROFILES: PlaydateProfile[] = [
-  { id: '1', dogName: 'Buddy', dogImage: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400', breed: 'Golden Retriever', age: 3, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY, Temperament.CALM], playStyle: PlayStyle.GENTLE, ownerName: 'Alex', ownerImage: '' },
-  { id: '2', dogName: 'Lucy', dogImage: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=400', breed: 'Poodle', age: 2, size: DogSize.MEDIUM, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Mia', ownerImage: '' },
-  { id: '3', dogName: 'Max', dogImage: 'https://images.unsplash.com/photo-1591160690555-5debfba289f0?w=400', breed: 'Beagle', age: 5, size: DogSize.MEDIUM, temperament: [Temperament.CALM], playStyle: PlayStyle.WRESTLER, ownerName: 'Sam', ownerImage: '' },
-  { id: '4', dogName: 'Daisy', dogImage: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400', breed: 'French Bulldog', age: 1, size: DogSize.SMALL, temperament: [Temperament.ENERGETIC, Temperament.FRIENDLY], playStyle: PlayStyle.CHASER, ownerName: 'Chloe', ownerImage: '' },
-  { id: '5', dogName: 'Rocky', dogImage: 'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=400', breed: 'German Shepherd', age: 4, size: DogSize.LARGE, temperament: [Temperament.PROTECTIVE, Temperament.CALM], playStyle: PlayStyle.GENTLE, ownerName: 'Tom', ownerImage: '' },
-  { id: '6', dogName: 'Molly', dogImage: 'https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=400', breed: 'Corgi', age: 2, size: DogSize.SMALL, temperament: [Temperament.FRIENDLY, Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Emily', ownerImage: '' },
-  { id: '7', dogName: 'Charlie', dogImage: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400', breed: 'Labrador', age: 6, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY], playStyle: PlayStyle.GENTLE, ownerName: 'Jack', ownerImage: '' },
-  { id: '8', dogName: 'Lola', dogImage: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c20?w=400', breed: 'Boxer', age: 3, size: DogSize.LARGE, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.WRESTLER, ownerName: 'Sophie', ownerImage: '' },
-  { id: '9', dogName: 'Ruby', dogImage: 'https://images.unsplash.com/photo-1598875184988-5e67b1a7ea9b?w=400', breed: 'Shiba Inu', age: 2, size: DogSize.MEDIUM, temperament: [Temperament.SHY], playStyle: PlayStyle.GENTLE, ownerName: 'Grace', ownerImage: '' },
-  { id: '10', dogName: 'Oscar', dogImage: 'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=400', breed: 'Pug', age: 4, size: DogSize.SMALL, temperament: [Temperament.CALM, Temperament.FRIENDLY], playStyle: PlayStyle.WRESTLER, ownerName: 'Henry', ownerImage: '' },
-  { id: '11', dogName: 'Zoe', dogImage: 'https://images.unsplash.com/photo-1588269838776-49275cde9bda?w=400', breed: 'Dalmatian', age: 1, size: DogSize.LARGE, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Isabella', ownerImage: '' },
+  { id: '1', dogName: 'Buddy', dogImage: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400', breed: 'Golden Retriever', age: 3, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY, Temperament.CALM], playStyle: PlayStyle.GENTLE, ownerName: 'Alex', ownerImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100' },
+  { id: '2', dogName: 'Lucy', dogImage: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=400', breed: 'Poodle', age: 2, size: DogSize.MEDIUM, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Mia', ownerImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
+  { id: '3', dogName: 'Max', dogImage: 'https://images.unsplash.com/photo-1591160690555-5debfba289f0?w=400', breed: 'Beagle', age: 5, size: DogSize.MEDIUM, temperament: [Temperament.CALM], playStyle: PlayStyle.WRESTLER, ownerName: 'Sam', ownerImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
+  { id: '4', dogName: 'Daisy', dogImage: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400', breed: 'French Bulldog', age: 1, size: DogSize.SMALL, temperament: [Temperament.ENERGETIC, Temperament.FRIENDLY], playStyle: PlayStyle.CHASER, ownerName: 'Chloe', ownerImage: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100' },
+  { id: '5', dogName: 'Rocky', dogImage: 'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=400', breed: 'German Shepherd', age: 4, size: DogSize.LARGE, temperament: [Temperament.PROTECTIVE, Temperament.CALM], playStyle: PlayStyle.GENTLE, ownerName: 'Tom', ownerImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100' },
+  { id: '6', dogName: 'Molly', dogImage: 'https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=400', breed: 'Corgi', age: 2, size: DogSize.SMALL, temperament: [Temperament.FRIENDLY, Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Emily', ownerImage: 'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=100' },
+  { id: '7', dogName: 'Charlie', dogImage: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400', breed: 'Labrador', age: 6, size: DogSize.LARGE, temperament: [Temperament.FRIENDLY], playStyle: PlayStyle.GENTLE, ownerName: 'Jack', ownerImage: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100' },
+  { id: '8', dogName: 'Lola', dogImage: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c20?w=400', breed: 'Boxer', age: 3, size: DogSize.LARGE, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.WRESTLER, ownerName: 'Sophie', ownerImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
+  { id: '9', dogName: 'Ruby', dogImage: 'https://images.unsplash.com/photo-1598875184988-5e67b1a7ea9b?w=400', breed: 'Shiba Inu', age: 2, size: DogSize.MEDIUM, temperament: [Temperament.SHY], playStyle: PlayStyle.GENTLE, ownerName: 'Grace', ownerImage: 'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=100' },
+  { id: '10', dogName: 'Oscar', dogImage: 'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=400', breed: 'Pug', age: 4, size: DogSize.SMALL, temperament: [Temperament.CALM, Temperament.FRIENDLY], playStyle: PlayStyle.WRESTLER, ownerName: 'Henry', ownerImage: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100' },
+  { id: '11', dogName: 'Zoe', dogImage: 'https://images.unsplash.com/photo-1588269838776-49275cde9bda?w=400', breed: 'Dalmatian', age: 1, size: DogSize.LARGE, temperament: [Temperament.ENERGETIC], playStyle: PlayStyle.CHASER, ownerName: 'Isabella', ownerImage: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=100' },
 ];
 
 const PlaydateScreen: React.FC = () => {
@@ -34,8 +35,10 @@ const PlaydateScreen: React.FC = () => {
     const [myDogProfile, setMyDogProfile] = useState<PlaydateProfile | null>(null);
 
     const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
+    const [isOwnerProfileModalOpen, setIsOwnerProfileModalOpen] = useState(false);
     const [lastMatch, setLastMatch] = useState<PlaydateProfile | null>(null);
     const [activeChat, setActiveChat] = useState<PlaydateMatch | null>(null);
+    const [viewingOwner, setViewingOwner] = useState<OwnerProfile | null>(null);
 
     useEffect(() => {
         const savedProfiles: DogProfile[] | null = JSON.parse(localStorage.getItem('paws-dog-profiles') || 'null');
@@ -125,6 +128,15 @@ const PlaydateScreen: React.FC = () => {
         }
     }, [matches, activeChat]);
 
+    const handleShowOwner = (profile: PlaydateProfile) => {
+        setViewingOwner({
+            name: profile.ownerName,
+            town: 'San Francisco', // Placeholder
+            photoUrl: profile.ownerImage,
+        });
+        setIsOwnerProfileModalOpen(true);
+    }
+
 
     if (activeChat) {
         return <ChatView
@@ -159,6 +171,7 @@ const PlaydateScreen: React.FC = () => {
                                     profile={profiles[0]}
                                     onLike={handleLike}
                                     onPass={() => setProfiles(prev => prev.slice(1))}
+                                    onShowOwner={() => handleShowOwner(profiles[0])}
                                 />
                             </div>
                         ) : (
@@ -191,6 +204,10 @@ const PlaydateScreen: React.FC = () => {
                             setIsMatchModalOpen(false);
                         }}
                     />
+                )}
+
+                {isOwnerProfileModalOpen && viewingOwner && (
+                    <OwnerProfileModal owner={viewingOwner} onClose={() => setIsOwnerProfileModalOpen(false)} />
                 )}
             </div>
         </div>
