@@ -15,6 +15,7 @@ import NutritionScreen from './components/screens/NutritionScreen';
 import ServicesScreen from './components/screens/ServicesScreen';
 import PlaydateScreen from './components/screens/PlaydateScreen';
 import LostDogScreen from './components/screens/LostDogScreen';
+import OwnerProfileScreen from './components/screens/OwnerProfileScreen';
 
 const App: React.FC = () => {
   const [activeScreen, setActiveScreen] = useState<Screen>('Home');
@@ -49,6 +50,8 @@ const App: React.FC = () => {
           return <ServicesScreen />;
       case 'Playdates':
           return <PlaydateScreen />;
+      case 'My Profile':
+            return <OwnerProfileScreen />;
       default:
         return <HomeScreen setActiveScreen={setActiveScreen} />;
     }
