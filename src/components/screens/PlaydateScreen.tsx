@@ -32,7 +32,7 @@ const PlaydateScreen: React.FC = () => {
     const [view, setView] = useState<View>('find');
     const [isAvailable, setIsAvailable] = useState(false);
 
-    const [profiles, setProfiles] = useState<PlaydateProfile[]>(MOCK_PROFILES);
+    const [profiles] = useState<PlaydateProfile[]>(MOCK_PROFILES);
     const [dismissed, setDismissed] = useState<string[]>([]);
     const [matches, setMatches] = useState<PlaydateMatch[]>(() => {
         try { return JSON.parse(localStorage.getItem('paws-playdate-matches') || '[]'); } catch { return []; }
