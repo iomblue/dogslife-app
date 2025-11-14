@@ -171,9 +171,9 @@ const PlaydateScreen: React.FC = () => {
                                     <PlaydateCard
                                         key={profile.id}
                                         profile={profile}
-                                        onLike={() => handleLike()}
+                                        onLike={handleLike}
                                         onPass={() => setProfiles(prev => prev.slice(1))}
-                                        onShowOwner={() => handleShowOwner(profiles[0])}
+                                        onShowOwner={() => handleShowOwner(profile)}
                                         isTop={index === profiles.length - 1}
                                     />
                                 ))}

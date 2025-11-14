@@ -16,27 +16,30 @@ const OwnerProfileScreen: React.FC = () => {
                     setProfile(parsedProfile);
                     setIsEditing(false);
                 } else {
+                    setProfile({ name: '', town: '', photoUrl: '' });
                     setIsEditing(true); // No name, force edit mode.
                 }
             } else {
+                setProfile({ name: '', town: '', photoUrl: '' });
                 setIsEditing(true); // No saved profile, start in edit mode.
             }
         } catch (e) {
             console.error("Failed to load profile", e);
+            setProfile({ name: '', town: '', photoUrl: '' });
             setIsEditing(true);
         }
     }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setProfile(prev => prev ? ({ ...prev, [name]: value }) : null);
+        setProfile(prev => ({ ...prev!, [name]: value }));
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const reader = new FileReader();
             reader.onload = (event) => {
-                setProfile(prev => prev ? ({ ...prev, photoUrl: event.target?.result as string }) : null);
+                setProfile(prev => ({ ...prev!, photoUrl: event.target?.result as string }));
             };
             reader.readAsDataURL(e.target.files[0]);
         }
@@ -113,6 +116,7 @@ const OwnerProfileScreen: React.FC = () => {
                         </div>
                     </div>
                      <div className="flex justify-end gap-4 pt-4 border-t">
+                        <button type="button" onClick={() => setIsEditing(false)} className="bg-slate-200 text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-300">Cancel</button>
                         <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Save Profile</button>
                     </div>
                 </form>
