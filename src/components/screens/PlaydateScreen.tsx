@@ -176,11 +176,11 @@ const PlaydateScreen: React.FC = () => {
                             </button>
                         </div>
                         {isAvailable && <FilterControls />}
-                        <div className="relative h-96">
+                        <div className="flex flex-col h-96">
                         {isAvailable && currentProfile && myDogProfile ? (
                             <>
                                 <PlaydateCard profile={currentProfile} />
-                                <div className="absolute bottom-0 w-full flex justify-around p-4 bg-transparent">
+                                <div className="flex-shrink-0 flex justify-around p-4">
                                     <button onClick={() => handleSwipe('pass')} className="p-4 rounded-full bg-red-100 text-red-500 hover:bg-red-200 transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                     </button>
@@ -193,7 +193,7 @@ const PlaydateScreen: React.FC = () => {
                                 </div>
                             </>
                         ) : (
-                            <div className="text-center p-8 bg-white rounded-lg border h-96 flex flex-col justify-center">
+                            <div className="text-center p-8 bg-white rounded-lg border h-full flex flex-col justify-center">
                                 { !myDogProfile ? (
                                      <p>Please create a dog profile to start matching!</p>
                                 ) : !isAvailable ? (
