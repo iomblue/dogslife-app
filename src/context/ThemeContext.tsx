@@ -11,6 +11,8 @@ interface ThemeContextType {
   currentTheme: Theme;
   unitSystem: UnitSystem;
   setUnitSystem: (system: UnitSystem) => void;
+  communityPostDistance: string;
+  setCommunityPostDistance: (distance: string) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -43,6 +45,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
+  const [communityPostDistance, setCommunityPostDistance] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem('paws-community-distance');
+      return saved || (unitSystem === 'metric' ? '10 Kms' : '10 miles');
+    } catch {
+      return unitSystem === 'metric' ? '10 Kms' : '10 miles';
+    }
+  });
+
   const [systemMode, setSystemMode] = useState<'light' | 'dark'>(() => 
     window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   );
@@ -58,6 +69,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     localStorage.setItem('paws-unit-system', unitSystem);
   }, [unitSystem]);
+
+  useEffect(() => {
+    localStorage.setItem('paws-community-distance', communityPostDistance);
+  }, [communityPostDistance]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -83,6 +98,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     currentTheme,
     unitSystem,
     setUnitSystem,
+    communityPostDistance,
+    setCommunityPostDistance,
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

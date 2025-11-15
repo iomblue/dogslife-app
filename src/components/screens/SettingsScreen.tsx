@@ -8,7 +8,7 @@ import { DogProfile, MedicalRecord, MedicalRecordType, Walk, JournalEntry, Sympt
 
 
 const SettingsScreen: React.FC = () => {
-    const { themeName, setThemeName, colorMode, setColorMode, resolvedMode, currentTheme, unitSystem, setUnitSystem } = useTheme();
+    const { themeName, setThemeName, colorMode, setColorMode, resolvedMode, currentTheme, unitSystem, setUnitSystem, communityPostDistance, setCommunityPostDistance } = useTheme();
 
     const handleClearData = () => {
         if (window.confirm("Are you sure you want to clear all app data? This cannot be undone.")) {
@@ -96,6 +96,7 @@ const SettingsScreen: React.FC = () => {
         }
     };
 
+    const communityDistances = unitSystem === 'metric' ? ['5 Kms', '10 Kms', '20 Kms'] : ['5 miles', '10 miles', '20 miles'];
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
@@ -182,13 +183,14 @@ const SettingsScreen: React.FC = () => {
                         <h4 className="text-lg font-medium mb-3">Post Visibility</h4>
                         <p className="text-sm text-slate-500 mb-2">Set the distance for community posts you want to see.</p>
                         <div className="flex gap-2">
-                            {(['5 miles', '10 miles', '20 miles'] as const).map(distance => (
+                            {communityDistances.map(distance => (
                                 <button 
                                     key={distance}
+                                    onClick={() => setCommunityPostDistance(distance)}
                                     className={`py-2 px-4 rounded-lg font-semibold capitalize transition-colors`}
                                     style={{
-                                        backgroundColor: currentTheme.primary,
-                                        color: currentTheme.primaryForeground,
+                                        backgroundColor: communityPostDistance === distance ? currentTheme.primary : currentTheme.secondary,
+                                        color: communityPostDistance === distance ? currentTheme.primaryForeground : currentTheme.secondaryForeground,
                                     }}
                                 >
                                     {distance}
