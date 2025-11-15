@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { CommunityPost } from '../../types';
 
 const MOCK_POSTS: CommunityPost[] = [
@@ -21,7 +21,7 @@ const MOCK_POSTS: CommunityPost[] = [
 ];
 
 const CommunityScreen: React.FC = () => {
-    const [posts, setPosts] = useState<CommunityPost[]>(MOCK_POSTS);
+    const [posts] = useState<CommunityPost[]>(MOCK_POSTS);
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
