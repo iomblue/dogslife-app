@@ -33,7 +33,7 @@ const PlaydateScreen: React.FC = () => {
     const [isAvailable, setIsAvailable] = useState(false);
 
     const [profiles] = useState<PlaydateProfile[]>(MOCK_PROFILES);
-    const [dismissed, setDismissed] = useState<string[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [matches, setMatches] = useState<PlaydateMatch[]>(() => {
         try { return JSON.parse(localStorage.getItem('paws-playdate-matches') || '[]'); } catch { return []; }
     });
@@ -45,7 +45,7 @@ const PlaydateScreen: React.FC = () => {
     const [activeChat, setActiveChat] = useState<PlaydateMatch | null>(null);
     const [viewingOwner, setViewingOwner] = useState<OwnerProfile | null>(null);
 
-    const visibleProfiles = profiles.filter(p => !dismissed.includes(p.id));
+    const currentProfile = profiles[currentIndex];
 
     useEffect(() => {
         const savedProfiles: DogProfile[] | null = JSON.parse(localStorage.getItem('paws-dog-profiles') || 'null');
@@ -70,13 +70,12 @@ const PlaydateScreen: React.FC = () => {
         localStorage.setItem('paws-playdate-matches', JSON.stringify(matches));
     }, [matches]);
 
-    const handleSwipe = (profileId: string, action: 'like' | 'pass') => {
-        setDismissed(prev => [...prev, profileId]);
+    const handleSwipe = (action: 'like' | 'pass') => {
+        if (!currentProfile) return;
 
         if (action === 'like') {
             if (!myDogProfile) return;
-            const likedProfile = profiles.find(p => p.id === profileId);
-            if (!likedProfile) return;
+            const likedProfile = currentProfile;
 
             // Simulate a match
             if (Math.random() > 0.3) {
@@ -95,6 +94,8 @@ const PlaydateScreen: React.FC = () => {
                 });
             }
         }
+        
+        setCurrentIndex(prev => prev + 1);
     };
 
     const handleSendMessage = (matchId: string, text: string) => {
@@ -138,11 +139,12 @@ const PlaydateScreen: React.FC = () => {
         }
     }, [matches, activeChat]);
 
-    const handleShowOwner = (profile: PlaydateProfile) => {
+    const handleShowOwner = () => {
+        if (!currentProfile) return;
         setViewingOwner({
-            name: profile.ownerName,
+            name: currentProfile.ownerName,
             town: 'San Francisco', // Placeholder
-            photoUrl: profile.ownerImage,
+            photoUrl: currentProfile.ownerImage,
         });
         setIsOwnerProfileModalOpen(true);
     }
@@ -161,7 +163,6 @@ const PlaydateScreen: React.FC = () => {
             <div className="max-w-md mx-auto space-y-6">
                 <h2 className="text-3xl font-bold text-slate-800 text-center">Find a Playmate</h2>
                 
-                {/* Tabs */}
                 <div className="flex bg-slate-200 p-1 rounded-lg">
                     <button onClick={() => setView('find')} className={`w-full py-2 rounded-md font-semibold ${view === 'find' ? 'bg-white shadow' : ''}`}>Find</button>
                     <button onClick={() => setView('chats')} className={`w-full py-2 rounded-md font-semibold ${view === 'chats' ? 'bg-white shadow' : ''}`}>Chats</button>
@@ -175,22 +176,22 @@ const PlaydateScreen: React.FC = () => {
                             </button>
                         </div>
                         {isAvailable && <FilterControls />}
-                        {isAvailable && visibleProfiles.length > 0 && myDogProfile ? (
-                            <div className="relative h-96">
-                                {visibleProfiles.reverse().map((profile, index) => {
-                                    const isTop = index === visibleProfiles.length - 1;
-                                    return (
-                                        <PlaydateCard
-                                            key={profile.id}
-                                            profile={profile}
-                                            isTop={isTop}
-                                            onLike={() => handleSwipe(profile.id, 'like')}
-                                            onPass={() => handleSwipe(profile.id, 'pass')}
-                                            onShowOwner={() => handleShowOwner(profile)}
-                                        />
-                                    );
-                                })}
-                            </div>
+                        <div className="relative h-96">
+                        {isAvailable && currentProfile && myDogProfile ? (
+                            <>
+                                <PlaydateCard profile={currentProfile} />
+                                <div className="absolute bottom-0 w-full flex justify-around p-4 bg-transparent">
+                                    <button onClick={() => handleSwipe('pass')} className="p-4 rounded-full bg-red-100 text-red-500 hover:bg-red-200 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    </button>
+                                    <button onClick={handleShowOwner} className="p-4 rounded-full bg-blue-100 text-blue-500 hover:bg-blue-200 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    </button>
+                                    <button onClick={() => handleSwipe('like')} className="p-4 rounded-full bg-green-100 text-green-500 hover:bg-green-200 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    </button>
+                                </div>
+                            </>
                         ) : (
                             <div className="text-center p-8 bg-white rounded-lg border h-96 flex flex-col justify-center">
                                 { !myDogProfile ? (
@@ -202,6 +203,7 @@ const PlaydateScreen: React.FC = () => {
                                 )}
                             </div>
                         )}
+                        </div>
                     </>
                 )}
 
