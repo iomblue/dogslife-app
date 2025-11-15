@@ -175,6 +175,29 @@ const SettingsScreen: React.FC = () => {
                     </div>
                 </div>
 
+                {/* Community Section */}
+                <div style={{ backgroundColor: currentTheme.card, color: currentTheme.cardForeground, borderColor: currentTheme.border }} className="p-6 rounded-lg shadow-md border">
+                    <h3 className="text-xl font-semibold mb-4">Community</h3>
+                    <div>
+                        <h4 className="text-lg font-medium mb-3">Post Visibility</h4>
+                        <p className="text-sm text-slate-500 mb-2">Set the distance for community posts you want to see.</p>
+                        <div className="flex gap-2">
+                            {(['5 miles', '10 miles', '20 miles'] as const).map(distance => (
+                                <button 
+                                    key={distance}
+                                    className={`py-2 px-4 rounded-lg font-semibold capitalize transition-colors`}
+                                    style={{
+                                        backgroundColor: currentTheme.primary,
+                                        color: currentTheme.primaryForeground,
+                                    }}
+                                >
+                                    {distance}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
                 {/* Data Management Section */}
                  <div style={{ backgroundColor: currentTheme.card, color: currentTheme.cardForeground, borderColor: currentTheme.border }} className="p-6 rounded-lg shadow-md border">
                      <h3 className="text-xl font-semibold mb-4">Data Management</h3>

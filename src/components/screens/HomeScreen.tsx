@@ -9,7 +9,7 @@ interface HomeScreenProps {
 const QuickLink: React.FC<{ icon: React.ReactNode, label: string, onClick: () => void }> = ({ icon, label, onClick }) => {
     const { currentTheme } = useTheme();
     return (
-        <button onClick={onClick} className="flex flex-col items-center justify-center p-4 rounded-lg text-center transition-colors" style={{ backgroundColor: 'rgba(255, 165, 0, 0.4)', border: `1px solid ${currentTheme.border}` }}>
+        <button onClick={onClick} className="flex flex-col items-center justify-center p-4 rounded-lg text-center transition-colors" style={{ backgroundColor: '#FFAE42', border: `1px solid ${currentTheme.border}` }}>
             <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2" style={{ backgroundColor: currentTheme.secondary, color: currentTheme.primary }}>
                 {icon}
             </div>
@@ -25,6 +25,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ setActiveScreen }) => {
         { label: 'Start Walk', screen: 'Fitness', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> },
         { label: 'Playdates', screen: 'Playdates', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> },
         { label: 'Lost Dog', screen: 'Map', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> },
+        { label: 'Community', screen: 'Community', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> },
         { label: 'My Dog', screen: 'Profile', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
         { label: 'My Profile', screen: 'My Profile', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
     ];

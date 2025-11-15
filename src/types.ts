@@ -106,9 +106,10 @@ export interface JournalEntry {
 export interface CommunityPost {
     id: string;
     author: string;
-    avatarUrl: string;
-    date: string;
-    text: string;
+    avatar: string;
+    timestamp: string;
+    content: string;
+    location: string;
 }
 
 // Lost Dog Alerts

@@ -1,74 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import type { CommunityPost } from '../../types';
-import { MOCK_USERS } from '../../constants';
 
-const defaultPosts: CommunityPost[] = [
-    { id: '1', author: 'GoldenRetrieverLover', avatarUrl: MOCK_USERS[0].avatar, date: 'Yesterday', text: 'Does anyone have recommendations for durable chew toys? My golden goes through them so fast!' },
-    { id: '2', author: 'PoodlePal', avatarUrl: MOCK_USERS[1].avatar, date: '2 days ago', text: 'Just discovered the best dog park in the area! So much space to run around.' },
+const MOCK_POSTS: CommunityPost[] = [
+    {
+        id: '1',
+        author: 'Alex',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100',
+        timestamp: '2 hours ago',
+        content: 'Just a heads up, the dog park on Elm Street is closed for maintenance today. Looks like they are resodding the main area.',
+        location: 'Elm Street Park',
+    },
+    {
+        id: '2',
+        author: 'Mia',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100',
+        timestamp: '1 day ago',
+        content: 'Has anyone tried the new organic dog food from Pet Pantry? My little guy is a picky eater and I am looking for recommendations.',
+        location: 'Downtown',
+    },
 ];
 
 const CommunityScreen: React.FC = () => {
-    const [posts, setPosts] = useState<CommunityPost[]>(() => {
-        try {
-            const savedPosts = localStorage.getItem('paws-community');
-            return savedPosts ? JSON.parse(savedPosts) : defaultPosts;
-        } catch (e) {
-            console.error("Failed to parse community posts from localStorage", e);
-            return defaultPosts;
-        }
-    });
-
-    const [newPostText, setNewPostText] = useState('');
-
-    useEffect(() => {
-        localStorage.setItem('paws-community', JSON.stringify(posts));
-    }, [posts]);
-
-    const handleCreatePost = () => {
-        if (newPostText.trim()) {
-            const randomUser = MOCK_USERS[Math.floor(Math.random() * MOCK_USERS.length)];
-            const newPost: CommunityPost = {
-                id: new Date().toISOString(),
-                author: 'You (as ' + randomUser.name + ')',
-                avatarUrl: randomUser.avatar,
-                date: 'Just now',
-                text: newPostText,
-            };
-            setPosts(prevPosts => [newPost, ...prevPosts]);
-            setNewPostText('');
-        }
-    };
+    const [posts, setPosts] = useState<CommunityPost[]>(MOCK_POSTS);
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
             <div className="max-w-3xl mx-auto">
-                <h2 className="text-3xl font-bold text-slate-800 mb-6">Community Feed</h2>
-                
-                <div className="bg-white p-4 rounded-lg shadow-md border mb-8">
-                    <textarea 
-                        value={newPostText}
-                        onChange={(e) => setNewPostText(e.target.value)}
-                        placeholder="Share something with the community..."
-                        className="w-full p-2 border rounded-lg h-20 bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
-                    />
-                    <div className="flex justify-end mt-2">
-                        <button onClick={handleCreatePost} disabled={!newPostText.trim()} className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-slate-300">
-                            Post
-                        </button>
-                    </div>
-                </div>
-
-                <div className="space-y-6">
+                <h2 className="text-3xl font-bold text-slate-800 mb-6">Community Board</h2>
+                <div className="space-y-4">
                     {posts.map(post => (
-                        <div key={post.id} className="bg-white p-4 rounded-lg shadow-md border animate-fade-in">
+                        <div key={post.id} className="bg-white p-4 rounded-lg shadow-md border">
                             <div className="flex items-start">
-                                <img src={post.avatarUrl} alt={post.author} className="w-12 h-12 rounded-full object-cover mr-4"/>
-                                <div className="w-full">
+                                <img src={post.avatar} alt={post.author} className="w-12 h-12 rounded-full mr-4" />
+                                <div className="flex-grow">
                                     <div className="flex justify-between items-center">
-                                        <p className="font-bold text-slate-800">{post.author}</p>
-                                        <p className="text-xs text-slate-400">{post.date}</p>
+                                        <span className="font-bold">{post.author}</span>
+                                        <span className="text-sm text-slate-500">{post.timestamp}</span>
                                     </div>
-                                    <p className="text-slate-700 mt-2">{post.text}</p>
+                                    <p className="mt-2">{post.content}</p>
+                                    <div className="text-xs text-slate-400 mt-2">{post.location}</div>
                                 </div>
                             </div>
                         </div>
