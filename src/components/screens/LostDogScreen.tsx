@@ -84,7 +84,7 @@ const LostDogScreen: React.FC = () => {
         }
     };
 
-    const handleSendMessage = (matchId: string, text: string) => {
+    const handleSendMessage = (_matchId: string, text: string) => {
         if (!activeChat) return;
 
         const newMessage: ChatMessage = {
