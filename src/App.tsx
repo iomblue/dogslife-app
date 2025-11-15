@@ -51,7 +51,7 @@ const App: React.FC = () => {
       case 'Playdates':
           return <PlaydateScreen />;
       case 'My Profile':
-            return <OwnerProfileScreen />;
+            return <OwnerProfileScreen setActiveScreen={setActiveScreen} />;
       default:
         return <HomeScreen setActiveScreen={setActiveScreen} />;
     }

@@ -110,6 +110,7 @@ export interface CommunityPost {
     timestamp: string;
     content: string;
     location: string;
+    replies: CommunityPost[];
 }
 
 // Lost Dog Alerts

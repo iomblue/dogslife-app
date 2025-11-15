@@ -117,47 +117,61 @@ const DogProfileScreen: React.FC = () => {
     if (!isEditing && currentProfile) {
         return (
             <div className="container mx-auto px-4 py-8 md:py-12">
-                <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border">
-                    <div className="text-center mb-6">
-                        <h2 className="text-3xl font-bold text-slate-800">Dog Profile</h2>
-                        <div className="flex gap-2 justify-center mt-4">
-                            <button onClick={handleNewProfile} className="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 text-sm">
-                                Add New
-                            </button>
-                            <button onClick={handleRemoveProfile} className="bg-red-200 text-red-700 font-bold py-2 px-4 rounded-lg hover:bg-red-300 text-sm">
-                                Remove
-                            </button>
-                            <button onClick={() => setIsEditing(true)} className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 text-sm flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                                Edit
-                            </button>
+                <div className="max-w-3xl mx-auto space-y-6">
+                    {profiles.length > 1 && (
+                        <div className="flex justify-center gap-2 mb-4">
+                            {profiles.map(p => (
+                                <button 
+                                    key={p.name} 
+                                    onClick={() => setCurrentProfile(p)}
+                                    className={`px-3 py-1 rounded-full text-sm font-semibold ${currentProfile.name === p.name ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'}`}>
+                                    {p.name}
+                                </button>
+                            ))}
                         </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-                         <img 
-                            src={currentProfile.imageUrl || 'https://images.unsplash.com/photo-1596492784533-24103a733aff?w=200&h=200&fit=crop'} 
-                            alt={currentProfile.name}
-                            className="w-40 h-40 rounded-full object-cover border-4 border-blue-300"
-                        />
-                        <div className="flex-grow">
-                             <p className="text-4xl font-bold text-blue-600">{currentProfile.name}</p>
-                             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-                                <div>
-                                    <p className="text-sm text-slate-500 font-bold">Breed</p>
-                                    <p className="text-lg text-slate-700">{currentProfile.breed}</p>
+                    )}
+                    <div className="bg-white p-6 rounded-lg shadow-md border">
+                        <div className="text-center mb-6">
+                            <h2 className="text-3xl font-bold text-slate-800">Dog Profile</h2>
+                            <div className="flex gap-2 justify-center mt-4">
+                                <button onClick={handleNewProfile} className="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 text-sm">
+                                    Add New
+                                </button>
+                                <button onClick={handleRemoveProfile} className="bg-red-200 text-red-700 font-bold py-2 px-4 rounded-lg hover:bg-red-300 text-sm">
+                                    Remove
+                                </button>
+                                <button onClick={() => setIsEditing(true)} className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 text-sm flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                            <img 
+                                src={currentProfile.imageUrl || 'https://images.unsplash.com/photo-1596492784533-24103a733aff?w=200&h=200&fit=crop'} 
+                                alt={currentProfile.name}
+                                className="w-40 h-40 rounded-full object-cover border-4 border-blue-300"
+                            />
+                            <div className="flex-grow">
+                                <p className="text-4xl font-bold text-blue-600">{currentProfile.name}</p>
+                                <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <p className="text-sm text-slate-500 font-bold">Breed</p>
+                                        <p className="text-lg text-slate-700">{currentProfile.breed}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-slate-500 font-bold">Age</p>
+                                        <p className="text-lg text-slate-700">{calculateAge(currentProfile.dob)}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-slate-500 font-bold">Sex</p>
+                                        <p className="text-lg text-slate-700">{currentProfile.sex}</p>
+                                    </div>
                                 </div>
-                                 <div>
-                                    <p className="text-sm text-slate-500 font-bold">Age</p>
-                                    <p className="text-lg text-slate-700">{calculateAge(currentProfile.dob)}</p>
+                                <div className="mt-4 flex justify-center sm:justify-start gap-2">
+                                    {currentProfile.temperament.map(t => <span key={t} className="text-xs bg-slate-200 rounded-full px-2 py-1">{t}</span>)}
                                 </div>
-                                <div>
-                                    <p className="text-sm text-slate-500 font-bold">Sex</p>
-                                    <p className="text-lg text-slate-700">{currentProfile.sex}</p>
-                                </div>
-                             </div>
-                             <div className="mt-4 flex justify-center sm:justify-start gap-2">
-                                {currentProfile.temperament.map(t => <span key={t} className="text-xs bg-slate-200 rounded-full px-2 py-1">{t}</span>)}
-                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>

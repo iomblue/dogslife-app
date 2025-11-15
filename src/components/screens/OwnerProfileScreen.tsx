@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import type { OwnerProfile } from '../../types';
+import type { OwnerProfile, Screen } from '../../types';
 
-const OwnerProfileScreen: React.FC = () => {
+interface OwnerProfileScreenProps {
+    setActiveScreen: (screen: Screen) => void;
+}
+
+const OwnerProfileScreen: React.FC<OwnerProfileScreenProps> = ({ setActiveScreen }) => {
     const [profile, setProfile] = useState<OwnerProfile | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     
@@ -76,6 +80,9 @@ const OwnerProfileScreen: React.FC = () => {
                         <div className="flex-grow">
                              <p className="text-4xl font-bold text-blue-600">{profile.name}</p>
                              <p className="text-lg text-slate-700">{profile.town}</p>
+                             <button onClick={() => setActiveScreen('Profile')} className="mt-4 bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600">
+                                My Dogs
+                             </button>
                         </div>
                     </div>
                 </div>
