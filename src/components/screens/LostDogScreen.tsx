@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import type { LostDogAlert, DogProfile, PlaydateMatch } from '../../types';
+import type { LostDogAlert, DogProfile, PlaydateMatch, ChatMessage } from '../../types';
 import { DogSize, PlayStyle } from '../../types';
 import LostDogAlertsMapView from '../lostdog/AlertsMapView';
 import LostDogAlertListItem from '../lostdog/LostDogAlertListItem';
@@ -84,10 +84,35 @@ const LostDogScreen: React.FC = () => {
         }
     };
 
+    const handleSendMessage = (matchId: string, text: string) => {
+        if (!activeChat) return;
+
+        const newMessage: ChatMessage = {
+            id: Date.now().toString(),
+            text,
+            sender: 'me',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+
+        const updatedChat = { ...activeChat, messages: [...activeChat.messages, newMessage] };
+        setActiveChat(updatedChat);
+
+        // Simulate reply
+        setTimeout(() => {
+            const replyMessage: ChatMessage = {
+                id: (Date.now() + 1).toString(),
+                text: 'Thank you so much for the update! Where did you last see them?',
+                sender: 'them',
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            setActiveChat(prev => prev ? ({ ...prev, messages: [...prev.messages, replyMessage] }) : null);
+        }, 1500);
+    };
+
     const activeAlerts = useMemo(() => alerts.filter(a => a.status === 'active'), [alerts]);
 
     if (activeChat) {
-        return <ChatView match={activeChat} onBack={() => setActiveChat(null)} onSendMessage={() => {}} />;
+        return <ChatView match={activeChat} onBack={() => setActiveChat(null)} onSendMessage={handleSendMessage} />;
     }
 
     return (
