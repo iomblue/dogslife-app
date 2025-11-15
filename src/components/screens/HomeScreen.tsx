@@ -9,7 +9,7 @@ interface HomeScreenProps {
 const QuickLink: React.FC<{ icon: React.ReactNode, label: string, onClick: () => void }> = ({ icon, label, onClick }) => {
     const { currentTheme } = useTheme();
     return (
-        <button onClick={onClick} className="flex flex-col items-center justify-center p-4 rounded-lg text-center transition-colors" style={{ backgroundColor: 'rgba(255, 165, 0, 0.8)', border: `1px solid ${currentTheme.border}` }}>
+        <button onClick={onClick} className="flex flex-col items-center justify-center p-4 rounded-lg text-center transition-colors" style={{ backgroundColor: 'rgba(255, 165, 0, 0.4)', border: `1px solid ${currentTheme.border}` }}>
             <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2" style={{ backgroundColor: currentTheme.secondary, color: currentTheme.primary }}>
                 {icon}
             </div>
